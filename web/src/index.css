@@ -72,6 +72,14 @@
 @keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
 .kenburns { animation: kenburns 7s cubic-bezier(0.25, 0.1, 0.25, 1) both; }
 
+/* Pulso que viaja por el conector hacia el siguiente paso */
+@keyframes flow-travel-y { from { transform: translateY(-100%); } to { transform: translateY(300%); } }
+@keyframes flow-travel-x { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+.flow-travel { left: 0; top: 0; width: 100%; height: 33%; background: linear-gradient(180deg, transparent, #2A44EE, transparent); animation: flow-travel-y 1.6s ease-in-out infinite; }
+@media (min-width: 1024px) {
+  .flow-travel { width: 33%; height: 100%; background: linear-gradient(90deg, transparent, #2A44EE, transparent); animation-name: flow-travel-x; }
+}
+
 /* Cinta de tecnologías */
 @keyframes marquee { to { transform: translateX(-50%); } }
 .marquee { animation: marquee 40s linear infinite; }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { CalendarDays, Mail, MapPin, MessageCircle, Phone, Plus } from 'lucide-react'
-import { EASE, EMAIL, LogoMark, Reveal, SectionBadge, WHATSAPP, RollText } from '../components/ui'
+import { EASE, EMAIL, LogoMark, SectionBadge, WHATSAPP, RollText } from '../components/ui'
 import { ArrowRight } from 'lucide-react'
 
 /* ---------------- Rubros: pestañas que avanzan solas ---------------- */
@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react'
 const SECTORS = [
   { id: 'salud', tab: 'Salud', img: 'salud', alt: 'Dentista conversando con una paciente en una consulta', title: 'Clínicas y centros de salud', items: ['Agenda y confirmación de horas por WhatsApp', 'Sistema de pacientes y fichas a medida, protegido según la ley', 'Recordatorios automáticos que bajan las inasistencias'] },
   { id: 'resto', tab: 'Restaurantes', img: 'restaurantes', alt: 'Chef cocinando con fuego en la cocina de un restaurante', title: 'Restaurantes y cafeterías', items: ['Carta digital con QR y pedidos en línea sin comisiones de terceros', 'Reservas por WhatsApp y web, confirmadas solas', 'Control de inventario y costo de cada receta'] },
-  { id: 'comercio', tab: 'Comercio', img: 'comercio', alt: 'Dueña de un almacén atendiendo detrás del mostrador', title: 'Comercio y retail', items: ['Tienda online conectada a tu inventario y a Transbank o Mercado Pago', 'Punto de venta y boletas electrónicas en un solo sistema', 'Cotizaciones automáticas desde tu lista de precios'] },
+  { id: 'comercio', tab: 'Comercio', img: 'comercio', alt: 'Encargada de una tienda de ropa revisando el inventario en una tableta', title: 'Comercio y retail', items: ['Tienda online conectada a tu inventario y a Transbank o Mercado Pago', 'Punto de venta y boletas electrónicas en un solo sistema', 'Cotizaciones automáticas desde tu lista de precios'] },
   { id: 'inmo', tab: 'Inmobiliarias', img: 'inmobiliarias', alt: 'Llaves junto a una casa en miniatura', title: 'Inmobiliarias y corredoras', items: ['Asistente que responde consultas y agenda visitas', 'Publicación automática en portales', 'CRM para seguir a cada interesado sin perder ninguno'] },
   { id: 'profesionales', tab: 'Servicios profesionales', img: 'servicios', alt: 'Profesional trabajando con su computador en una oficina', title: 'Estudios contables, jurídicos y consultoras', items: ['Portal para que tus clientes suban documentos', 'Recordatorios de vencimientos y cobranza automática', 'Reportes mensuales generados solos'] },
   { id: 'edu', tab: 'Educación', img: 'educacion', alt: 'Estudiantes en una sala de clases con su profesor', title: 'Colegios, academias y OTEC', items: ['Inscripciones y pagos en línea', 'Plataforma de cursos con avance de cada alumno', 'Comunicación automática con apoderados y alumnos'] },
@@ -117,7 +117,7 @@ export function Sectors() {
               id={`panel-${s.id}`}
               aria-labelledby={`tab-${s.id}`}
               hidden={i !== current}
-              className="overflow-hidden rounded-2xl bg-[#F5F5F5] lg:grid lg:grid-cols-[1.1fr_1fr]"
+              className={i === current ? 'overflow-hidden rounded-2xl bg-[#F5F5F5] lg:grid lg:grid-cols-[1.1fr_1fr]' : 'hidden'}
             >
               {i === current && (
                 <>
@@ -158,38 +158,6 @@ export function Sectors() {
   )
 }
 
-/* ---------------- Proceso ---------------- */
-
-const STEPS = [
-  { t: 'Diagnóstico', d: '30 minutos para entender tu operación y detectar dónde se pierde tiempo o plata. Sin costo.' },
-  { t: 'Propuesta cerrada', d: 'Alcance, plazos y precio fijo en UF. Sin letra chica.' },
-  { t: 'Construcción por etapas', d: 'Avances cada semana para que pruebes y opines. Tu operación sigue funcionando.' },
-  { t: 'Acompañamiento', d: 'Capacitamos a tu equipo y nos hacemos cargo del soporte y las mejoras.' },
-]
-
-export function Process() {
-  return (
-    <section id="proceso" className="bg-[#F5F5F5] pb-16 pt-16 sm:pb-20 sm:pt-20 lg:pb-28 lg:pt-28">
-      <div className="mx-auto max-w-[1440px]">
-        <SectionBadge n={4} label="Cómo trabajamos" border="border-gray-300" />
-        <h2 className="mb-10 px-5 text-[clamp(1.75rem,7vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 sm:mb-14 sm:px-8 sm:text-[clamp(2.5rem,5vw,4.2rem)] lg:mb-16 lg:px-12">
-          Cuatro pasos, sin sorpresas
-        </h2>
-        <ol className="grid grid-cols-1 gap-5 px-5 sm:grid-cols-2 sm:gap-6 sm:px-8 lg:grid-cols-4 lg:gap-7 lg:px-12">
-          {STEPS.map((s, i) => (
-            <li key={s.t}>
-              <Reveal delay={i * 110} className="group flex h-full flex-col rounded-2xl bg-white p-6 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(11,31,58,0.08)] sm:p-7">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 text-[12px] font-semibold text-white tabular-nums transition-colors duration-300 group-hover:bg-[#2A44EE]">{i + 1}</span>
-                <h3 className="mt-10 text-[17px] font-semibold text-gray-900 sm:mt-14">{s.t}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-gray-600">{s.d}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  )
-}
 
 /* ---------------- Preguntas frecuentes ---------------- */
 
@@ -240,7 +208,8 @@ export function Contact() {
     const diaTexto = dia ? new Date(`${dia}T12:00:00`).toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' }) : ''
     const agenda = dia ? ` Me gustaría agendar el diagnóstico el ${diaTexto}, en la ${data.get('bloque')}.` : ''
     const mensaje = String(data.get('mensaje') ?? '').trim().replace(/([^.!?])$/, '$1.')
-    const text = `Hola, soy ${data.get('nombre')}${empresa}. ${mensaje}${agenda}`
+    const nombre = String(data.get('nombre') ?? '').trim().split(/(\s+|-)/).map((p) => p.charAt(0).toLocaleUpperCase('es-CL') + p.slice(1)).join('')
+    const text = `Hola, soy ${nombre}${empresa}. ${mensaje}${agenda}`
     window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank', 'noopener')
   }
   const today = new Date()

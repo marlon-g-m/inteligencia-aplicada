@@ -1,7 +1,8 @@
 import Hero from './sections/Hero'
 import About from './sections/About'
 import Services from './sections/Services'
-import { Contact, Faq, Footer, Process, Sectors } from './sections/Rest'
+import Process from './sections/Process'
+import { Contact, Faq, Footer, Sectors } from './sections/Rest'
 
 export default function App() {
   return (
