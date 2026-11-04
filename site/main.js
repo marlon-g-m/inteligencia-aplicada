@@ -16,7 +16,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(fa
 document.getElementById('year').textContent = new Date().getFullYear();
 
 // Formulario: abre WhatsApp con el mensaje armado (sin backend ni almacenamiento)
-const WHATSAPP = '56900000000'; // TODO: reemplazar por el número real
+const WHATSAPP = '56976630940';
 
 document.getElementById('contact-form').addEventListener('submit', (e) => {
   e.preventDefault();
