@@ -31,9 +31,9 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 
 **Meta:** tener algo que mostrar y con qué cerrar.
 
-- [ ] 👤 Elegir el primer rubro: clínicas o corredoras
-- [ ] 🤖 Construir el **demo funcional del asistente de WhatsApp** para ese rubro (Cloud API + IA + agenda), en un número de prueba
-- [ ] 🤖 Plantilla reutilizable del bot (repositorio propio, documentada)
+- [x] 👤 Elegir el primer rubro: **clínicas** (4 nov)
+- [ ] 🤖 Construir el **demo funcional del asistente de WhatsApp** para ese rubro (Cloud API + IA + agenda), en un número de prueba. Código listo en `demo-clinica/`; falta 👤 la API key de Anthropic y la app de Meta
+- [x] 🤖 Plantilla reutilizable del bot (repositorio propio, documentada): `demo-clinica/`, se adapta con `data/clinica.json`
 - [ ] 🤖 Propuesta comercial tipo (Docs o PDF): alcance, plazos, precio en UF y garantía
 - [ ] 🤖 Borradores de contrato de servicios, NDA y anexo de tratamiento de datos
 - [ ] 👤 Revisión de los contratos con un abogado (idealmente un aliado para la parte legal de la Ley 21.719)
@@ -101,4 +101,5 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 | Fecha | Hito cumplido | Nota |
 |---|---|---|
 | 2026-11-04 | Nombre, logo, guía de marca y web publicada | `marlon-g-m.github.io/inteligencia-aplicada` |
-| 2026-11-04 | Web v2 en React con portada animada | Publicación en cola por una caída de GitHub Actions |
+| 2026-11-04 | Web v2 en React con portada animada | Publicada |
+| 2026-11-04 | Asistente de WhatsApp para clínicas (código, simulador, panel y 11 pruebas) | `demo-clinica/`, pendiente la conexión real |

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de recepción</title>
+  <style>
+    :root { --navy: #0B1F3A; --blue: #2A44EE; --sep: #E2E8F0; --muted: #64748B; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #F5F5F5; color: #0F172A; }
+    header { background: var(--navy); color: #fff; padding: 16px; }
+    header h1 { margin: 0; font-size: 1.125rem; }
+    header p { margin: 2px 0 0; opacity: .75; font-size: .8125rem; }
+    main { max-width: 1000px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; }
+    section { background: #fff; border-radius: 16px; padding: 20px; }
+    h2 { margin: 0 0 12px; font-size: 1rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--sep); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; }
+    td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .empty { color: var(--muted); font-size: .875rem; margin: 0; }
+    button { border: 0; border-radius: 999px; background: var(--blue); color: #fff; padding: 8px 14px; font: inherit; font-size: .8125rem; cursor: pointer; }
+    .scroll { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">Panel de recepción</h1>
+    <p>Se actualiza cada 15 segundos</p>
+  </header>
+  <main>
+    <section>
+      <h2>Conversaciones derivadas a recepción</h2>
+      <div id="handoffs"></div>
+    </section>
+    <section>
+      <h2>Próximas horas agendadas</h2>
+      <div class="scroll" id="citas"></div>
+    </section>
+  </main>
+  <script>
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+    const fmt = (local) => new Date(local + ':00').toLocaleString('es-CL', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+    const contacto = (c) => c.startsWith('wa:') ? '+' + c.slice(3) : 'Simulador web'
+
+    async function load() {
+      const d = await (await fetch('api/panel')).json()
+      document.getElementById('title').textContent = 'Panel de recepción · ' + d.clinica
+      const h = document.getElementById('handoffs')
+      h.innerHTML = d.derivadas.length
+        ? '<table><thead><tr><th>Contacto</th><th>Motivo</th><th>Cuándo</th><th></th></tr></thead><tbody>' +
+          d.derivadas.map((x) => `<tr><td>${esc(contacto(x.contacto))}</td><td>${esc(x.motivo_derivacion || '')}</td><td class="n">${esc(new Date(x.actualizada).toLocaleString('es-CL'))}</td><td><button data-c="${esc(x.contacto)}">Devolver al asistente</button></td></tr>`).join('') +
+          '</tbody></table>'
+        : '<p class="empty">No hay conversaciones esperando a una persona.</p>'
+      h.querySelectorAll('button').forEach((b) => b.addEventListener('click', async () => {
+        await fetch('api/panel/devolver', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contacto: b.dataset.c }) })
+        load()
+      }))
+      const c = document.getElementById('citas')
+      c.innerHTML = d.citas.length
+        ? '<table><thead><tr><th>#</th><th>Fecha</th><th>Paciente</th><th>Servicio</th><th>Profesional</th><th>Contacto</th></tr></thead><tbody>' +
+          d.citas.map((x) => `<tr><td class="n">${x.id}</td><td class="n">${esc(fmt(x.inicio))}</td><td>${esc(x.paciente)}</td><td>${esc(x.servicio)}</td><td>${esc(x.profesional)}</td><td>${esc(contacto(x.contacto))}</td></tr>`).join('') +
+          '</tbody></table>'
+        : '<p class="empty">Aún no hay horas agendadas.</p>'
+    }
+    load(); setInterval(load, 15000)
+  </script>
+</body>
+</html>

@@ -8,6 +8,7 @@ Agencia de automatización, IA, desarrollo web, modernización de sistemas y mig
 |---|---|
 | `brand/` | Guía de marca (`BRAND.md`) y logos en SVG |
 | `web/` | Sitio web: React 18 + Vite + Tailwind CSS 3.4, portada con el paquete `shaders` (WebGPU) |
+| `demo-clinica/` | Asistente de WhatsApp con IA para clínicas: agenda, simulador web y panel de recepción |
 | `docs/` | Brief F.R.A.M.E. y prompts opcionales para Claude Design y recursos visuales |
 
 ## Ver el sitio en local

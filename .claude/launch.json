@@ -11,6 +11,16 @@
         "preview"
       ],
       "port": 4173
+    },
+    {
+      "name": "demo-clinica",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "demo-clinica",
+        "start"
+      ],
+      "port": 3000
     }
   ]
 }
