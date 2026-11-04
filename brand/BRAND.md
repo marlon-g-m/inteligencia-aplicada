@@ -23,16 +23,18 @@
 
 | Archivo | Uso |
 |---|---|
-| `logo-mark.svg` | Isotipo: avatar de redes, favicon, sellos, firma de correo |
 | `logo-horizontal.svg` | Logo completo: web, propuestas, facturas, presentaciones |
+| `logo-mark.svg` | Isotipo IA en azul marino, sobre fondos claros |
+| `logo-mark-white.svg` | Isotipo IA en blanco, sobre fondos oscuros o fotos |
+| `logo-app.svg` | Isotipo en cuadro azul marino: favicon, avatar de redes, WhatsApp |
 
-**Concepto:** la **I** es una columna firme (la base, lo que el cliente ya tiene). La **A** es una cumbre de la cordillera (crecimiento, identidad chilena). El **punto azul** es la chispa de inteligencia que se aplica dentro de la montaña.
+**Concepto:** la **I** es una columna firme (la base, lo que el cliente ya tiene). La **A** es una cumbre (crecimiento). Su travesaño es un **punto azul** unido a las dos piernas: la inteligencia que conecta y sostiene la estructura.
 
 **Reglas:**
 - Área de respeto: al menos la mitad del alto del isotipo libre alrededor.
 - Tamaño mínimo: isotipo de 24 px, logo horizontal de 140 px de ancho.
 - No deformar, no rotar, no cambiar el color del punto, no poner sombras ni degradados.
-- Sobre fondos oscuros, el isotipo lleva un borde fino claro; el texto del logo horizontal pasa a blanco y azul claro.
+- Sobre fondos oscuros, usa `logo-mark-white.svg`: la tinta pasa a blanco y el punto a azul claro `#4F6BFF`.
 - El texto de `logo-horizontal.svg` usa la fuente Manrope. Antes de imprimirlo o enviarlo a una imprenta, conviértelo a trazos (en Figma, Illustrator o Inkscape) para que no dependa de la fuente instalada.
 
 ## Color
@@ -45,11 +47,11 @@ Paleta formal: azul marino institucional, blanco y un azul real como único acen
 | Texto secundario | `#475569` | `#9AA8BC` | Descripciones, notas |
 | Fondo | `#F7F8FA` | `#060D1A` | Fondo de página |
 | Fondo elevado | `#FFFFFF` | `#0E1A2E` | Tarjetas, formularios |
-| **Azul real** (acento) | `#1D4ED8` | `#7AA2FF` | Botones principales, enlaces |
-| Azul logo | `#5B8CFF` | `#5B8CFF` | Solo el punto del isotipo |
+| **Azul real** (acento) | `#2A44EE` | `#7AA2FF` | Botones, enlaces, palabra "Aplicada" y punto del logo |
+| Azul claro | `#4F6BFF` | `#4F6BFF` | Punto del logo sobre fondos oscuros |
 
 - El azul real es el **único** color de acento. Va en la acción principal de cada pantalla, no en todo.
-- Contraste verificado: blanco sobre azul real = 6,7:1; azul real sobre fondo claro = 6,3:1; azul claro sobre fondo oscuro = 7,8:1 (todos cumplen WCAG AA).
+- Contraste verificado: blanco sobre azul real = 6,7:1; azul real sobre fondo claro = 6,3:1 (`#2A44EE`); azul claro sobre fondo oscuro = 7,8:1 (todos cumplen WCAG AA).
 
 ## Tipografía
 
