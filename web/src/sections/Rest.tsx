@@ -1,15 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { CalendarDays, Mail, MapPin, MessageCircle, Phone, Plus } from 'lucide-react'
-import { EASE, EMAIL, LogoMark, SectionBadge, WHATSAPP, RollText } from '../components/ui'
+import { EASE, EMAIL, LogoMark, Reveal, SectionBadge, WHATSAPP, RollText } from '../components/ui'
 import { ArrowRight } from 'lucide-react'
 
 /* ---------------- Rubros: pestañas que avanzan solas ---------------- */
 
 const SECTORS = [
-  { id: 'salud', tab: 'Salud', title: 'Clínicas y centros de salud', items: ['Agenda y confirmación de horas por WhatsApp', 'Recordatorios automáticos que bajan las inasistencias', 'Fichas y datos de pacientes protegidos según la ley'] },
-  { id: 'inmo', tab: 'Inmobiliarias', title: 'Inmobiliarias y corredoras', items: ['Asistente que responde consultas y agenda visitas', 'Publicación automática en portales', 'Seguimiento de interesados sin perder ninguno'] },
-  { id: 'conta', tab: 'Contabilidad', title: 'Estudios contables', items: ['Recepción y orden automático de documentos', 'Recordatorios de vencimientos a clientes', 'Reportes mensuales generados solos'] },
-  { id: 'comercio', tab: 'Comercio', title: 'Comercio y distribución', items: ['Cotizaciones automáticas desde tu lista de precios', 'Inventario conectado entre bodega, web y ventas', 'Seguimiento de pedidos para tus clientes'] },
+  { id: 'salud', tab: 'Salud', img: 'salud', alt: 'Dentista conversando con una paciente en una consulta', title: 'Clínicas y centros de salud', items: ['Agenda y confirmación de horas por WhatsApp', 'Sistema de pacientes y fichas a medida, protegido según la ley', 'Recordatorios automáticos que bajan las inasistencias'] },
+  { id: 'resto', tab: 'Restaurantes', img: 'restaurantes', alt: 'Chef cocinando con fuego en la cocina de un restaurante', title: 'Restaurantes y cafeterías', items: ['Carta digital con QR y pedidos en línea sin comisiones de terceros', 'Reservas por WhatsApp y web, confirmadas solas', 'Control de inventario y costo de cada receta'] },
+  { id: 'comercio', tab: 'Comercio', img: 'comercio', alt: 'Dueña de un almacén atendiendo detrás del mostrador', title: 'Comercio y retail', items: ['Tienda online conectada a tu inventario y a Transbank o Mercado Pago', 'Punto de venta y boletas electrónicas en un solo sistema', 'Cotizaciones automáticas desde tu lista de precios'] },
+  { id: 'inmo', tab: 'Inmobiliarias', img: 'inmobiliarias', alt: 'Llaves junto a una casa en miniatura', title: 'Inmobiliarias y corredoras', items: ['Asistente que responde consultas y agenda visitas', 'Publicación automática en portales', 'CRM para seguir a cada interesado sin perder ninguno'] },
+  { id: 'profesionales', tab: 'Servicios profesionales', img: 'servicios', alt: 'Profesional trabajando con su computador en una oficina', title: 'Estudios contables, jurídicos y consultoras', items: ['Portal para que tus clientes suban documentos', 'Recordatorios de vencimientos y cobranza automática', 'Reportes mensuales generados solos'] },
+  { id: 'edu', tab: 'Educación', img: 'educacion', alt: 'Estudiantes en una sala de clases con su profesor', title: 'Colegios, academias y OTEC', items: ['Inscripciones y pagos en línea', 'Plataforma de cursos con avance de cada alumno', 'Comunicación automática con apoderados y alumnos'] },
+  { id: 'logistica', tab: 'Logística', img: 'logistica', alt: 'Bodega con estanterías llenas de cajas', title: 'Transporte, bodegas y distribución', items: ['App para conductores con ruta y prueba de entrega con foto', 'Aviso automático al cliente del estado de su pedido', 'Inventario en línea entre bodega, ventas y web'] },
+  { id: 'construccion', tab: 'Construcción', img: 'construccion', alt: 'Trabajadores con casco en una obra en construcción', title: 'Construcción e industria', items: ['App de reportes de obra con fotos y firmas', 'Control de materiales, bodega y maquinaria', 'Mantenciones programadas y alertas de equipos'] },
 ]
 const AUTOPLAY_MS = 7000
 
@@ -23,7 +27,14 @@ export function Sectors() {
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
 
   useEffect(() => {
-    const io = new IntersectionObserver(([e]) => { visible.current = e.isIntersecting })
+    let preloaded = false
+    const io = new IntersectionObserver(([e]) => {
+      visible.current = e.isIntersecting
+      if (e.isIntersecting && !preloaded) {
+        preloaded = true
+        SECTORS.forEach((s) => { new Image().src = `./img/${s.img}.webp` })
+      }
+    }, { rootMargin: '300px 0px' })
     if (root.current) io.observe(root.current)
     return () => io.disconnect()
   }, [])
@@ -106,17 +117,39 @@ export function Sectors() {
               id={`panel-${s.id}`}
               aria-labelledby={`tab-${s.id}`}
               hidden={i !== current}
-              className="rounded-2xl bg-[#F5F5F5] p-7 sm:p-10 lg:p-12"
+              className="overflow-hidden rounded-2xl bg-[#F5F5F5] lg:grid lg:grid-cols-[1.1fr_1fr]"
             >
-              <h3 className="bubble text-[clamp(1.4rem,2.4vw,2.2rem)] font-medium tracking-[-0.02em] text-gray-900">{s.title}</h3>
-              <ul className="mt-6 grid gap-4 sm:mt-8">
-                {s.items.map((it, j) => (
-                  <li key={it} className="bubble flex items-baseline gap-3 text-[15px] text-gray-700 sm:text-[17px]" style={{ animationDelay: `${120 + j * 80}ms` }}>
-                    <span className="h-2 w-2 shrink-0 -translate-y-0.5 rounded-full bg-[#2A44EE]" aria-hidden="true" />
-                    {it}
-                  </li>
-                ))}
-              </ul>
+              {i === current && (
+                <>
+                  <div className="relative aspect-[16/10] overflow-hidden lg:aspect-auto lg:min-h-[420px]">
+                    <img
+                      src={`./img/${s.img}.webp`}
+                      alt={s.alt}
+                      width={1200}
+                      height={800}
+                      loading="lazy"
+                      decoding="async"
+                      className="kenburns absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A]/70 via-transparent to-transparent" aria-hidden="true" />
+                    <span className="bubble absolute bottom-4 left-4 rounded-full bg-white/90 px-3 py-1 text-[12px] font-medium text-gray-900 backdrop-blur">{s.tab}</span>
+                  </div>
+                  <div className="p-7 sm:p-10 lg:p-12">
+                    <h3 className="bubble text-[clamp(1.4rem,2.4vw,2.2rem)] font-medium leading-tight tracking-[-0.02em] text-gray-900">{s.title}</h3>
+                    <ul className="mt-6 grid gap-4 sm:mt-8">
+                      {s.items.map((it, j) => (
+                        <li key={it} className="bubble flex items-baseline gap-3 text-[15px] text-gray-700 sm:text-[17px]" style={{ animationDelay: `${150 + j * 100}ms` }}>
+                          <span className="h-2 w-2 shrink-0 -translate-y-0.5 rounded-full bg-[#2A44EE]" aria-hidden="true" />
+                          {it}
+                        </li>
+                      ))}
+                    </ul>
+                    <a href="#contacto" className="bubble mt-8 inline-flex items-center gap-2 text-[14px] font-medium text-[#2A44EE] hover:underline" style={{ animationDelay: '450ms' }}>
+                      Conversemos de tu caso <ArrowRight size={15} aria-hidden="true" />
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -144,10 +177,12 @@ export function Process() {
         </h2>
         <ol className="grid grid-cols-1 gap-5 px-5 sm:grid-cols-2 sm:gap-6 sm:px-8 lg:grid-cols-4 lg:gap-7 lg:px-12">
           {STEPS.map((s, i) => (
-            <li key={s.t} className="flex flex-col rounded-2xl bg-white p-6 sm:p-7">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 text-[12px] font-semibold text-white tabular-nums">{i + 1}</span>
-              <h3 className="mt-10 text-[17px] font-semibold text-gray-900 sm:mt-14">{s.t}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-gray-600">{s.d}</p>
+            <li key={s.t}>
+              <Reveal delay={i * 110} className="group flex h-full flex-col rounded-2xl bg-white p-6 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(11,31,58,0.08)] sm:p-7">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 text-[12px] font-semibold text-white tabular-nums transition-colors duration-300 group-hover:bg-[#2A44EE]">{i + 1}</span>
+                <h3 className="mt-10 text-[17px] font-semibold text-gray-900 sm:mt-14">{s.t}</h3>
+                <p className="mt-2 text-[14px] leading-relaxed text-gray-600">{s.d}</p>
+              </Reveal>
             </li>
           ))}
         </ol>
@@ -283,7 +318,7 @@ export function Footer() {
         </a>
         <div className="flex flex-col gap-2 text-[13px] text-white/60 sm:items-end">
           <a href="./politica-de-privacidad.html" className="hover:text-white hover:underline">Política de privacidad</a>
-          <p>© {new Date().getFullYear()} Inteligencia Aplicada · Santiago, Chile</p>
+          <p>© {new Date().getFullYear()} Inteligencia Aplicada · Santiago, Chile · Fotos: <a href="https://unsplash.com" className="hover:text-white hover:underline">Unsplash</a></p>
         </div>
       </div>
     </footer>

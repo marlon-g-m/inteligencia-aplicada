@@ -45,10 +45,15 @@ function Nav({ onOpenMenu, menuOpen }: { onOpenMenu: () => void; menuOpen: boole
     <div className="relative z-20 mx-auto w-full max-w-[1440px] p-2 sm:p-3">
       <nav aria-label="Principal" className="flex items-center justify-between rounded-full bg-white p-[5px]">
         <div className="flex items-center gap-6">
-          <a href="#" aria-label="Inteligencia Aplicada, inicio" className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-900 sm:h-10 sm:w-10">
-            <LogoMark className="w-[22px] text-white sm:w-6" dot="#4F6BFF" />
+          <a href="#" aria-label="Inteligencia Aplicada, inicio" className="flex items-center gap-2.5 pr-1">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-900 sm:h-10 sm:w-10">
+              <LogoMark className="w-[22px] text-white sm:w-6" dot="#4F6BFF" />
+            </span>
+            <span className="whitespace-nowrap text-[15px] font-semibold tracking-[-0.01em] text-gray-900 sm:text-[16px]">
+              Inteligencia <span className="text-[#2A44EE]">Aplicada</span>
+            </span>
           </a>
-          <ul className="hidden items-center gap-6 md:flex">
+          <ul className="hidden items-center gap-6 lg:flex">
             {LINKS.map((l) => (
               <li key={l.href}>
                 <a href={l.href} className="text-[14px] text-gray-900 transition-colors duration-300 hover:text-gray-500">
@@ -59,8 +64,8 @@ function Nav({ onOpenMenu, menuOpen }: { onOpenMenu: () => void; menuOpen: boole
           </ul>
         </div>
 
-        <div className="hidden items-center gap-5 md:flex">
-          <span className="hidden text-[13px] text-gray-600 lg:inline">{AVAILABILITY}</span>
+        <div className="hidden items-center gap-5 lg:flex">
+          <span className="hidden text-[13px] text-gray-600 xl:inline">{AVAILABILITY}</span>
           <span className="flex items-center gap-1.5 text-[13px] text-gray-600">
             <Clock size={14} aria-hidden="true" />
             <span className="tabular-nums">{time}</span> en Santiago
@@ -78,7 +83,7 @@ function Nav({ onOpenMenu, menuOpen }: { onOpenMenu: () => void; menuOpen: boole
           onClick={onOpenMenu}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
-          className="flex items-center gap-2 rounded-full bg-gray-900 py-2 pl-4 pr-3 text-[13px] font-medium text-white md:hidden"
+          className="flex items-center gap-2 rounded-full bg-gray-900 py-2 pl-4 pr-3 text-[13px] font-medium text-white lg:hidden"
         >
           {menuOpen ? 'Cerrar' : 'Menú'}
           {menuOpen ? <X size={16} aria-hidden="true" /> : <Menu size={16} aria-hidden="true" />}
@@ -104,7 +109,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <div
       id="mobile-menu"
-      className={`fixed inset-0 z-50 md:hidden ${open ? '' : 'pointer-events-none'}`}
+      className={`fixed inset-0 z-50 lg:hidden ${open ? '' : 'pointer-events-none'}`}
       aria-hidden={!open}
       style={{ visibility: open ? 'visible' : 'hidden', transition: `visibility 0s linear ${open ? '0s' : '500ms'}` }}
     >
@@ -156,11 +161,11 @@ export default function Hero() {
       <div className="flex-1" />
 
       <div className="relative z-20 mx-auto w-full max-w-[1440px] px-5 pb-14 sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
-        <p className="mb-5 text-[13px] tracking-wide text-white/80 sm:mb-8 sm:text-[14px]">Inteligencia Aplicada</p>
+        <p className="mb-5 text-[13px] tracking-wide text-white/80 sm:mb-8 sm:text-[14px]">Software a medida · Apps · Web · IA · Automatización</p>
         <h1 className="text-[clamp(1.75rem,7vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-white sm:text-[clamp(2.5rem,5vw,4.2rem)]">
-          Modernizamos lo que ya funciona<br className="hidden sm:block" />
-          <span className="sm:hidden"> </span>en tu empresa con IA,<br className="hidden sm:block" />
-          <span className="sm:hidden"> </span>automatización y nube.
+          Creamos el software que<br className="hidden sm:block" />
+          <span className="sm:hidden"> </span>tu empresa necesita, y lo<br className="hidden sm:block" />
+          <span className="sm:hidden"> </span>hacemos <span className="text-[#7AA2FF]">más inteligente</span>.
         </h1>
         <div className="mt-8 flex flex-col gap-4 sm:mt-12 sm:flex-row sm:items-center sm:gap-5">
           <PrimaryButton href="#contacto">Agenda un diagnóstico gratis</PrimaryButton>

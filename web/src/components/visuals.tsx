@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /** Activa la animación solo cuando el elemento entra en pantalla. */
-function useInView<T extends Element>() {
+export function useInView<T extends Element>() {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
   useEffect(() => {

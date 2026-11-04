@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 
 export const EASE = 'ease-[cubic-bezier(0.25,0.1,0.25,1)]'
@@ -55,6 +56,26 @@ export function LogoMark({ className = '', dot = '#2A44EE' }: { className?: stri
       </g>
       <circle cx="84" cy="72" r="9.5" fill={dot} />
     </svg>
+  )
+}
+
+/** Hace aparecer su contenido con un desplazamiento suave cuando entra en pantalla. */
+export function Reveal({ children, className = '', delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setInView(true); io.disconnect() }
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <div ref={ref} className={`reveal ${inView ? 'is-in' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
   )
 }
 

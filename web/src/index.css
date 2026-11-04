@@ -53,3 +53,27 @@
 
 @keyframes migrate { 0% { transform: scaleX(0.08); } 70%, 100% { transform: scaleX(1); } }
 .migrate-bar { transform-origin: left; animation: migrate 4s cubic-bezier(0.25, 0.1, 0.25, 1) infinite; }
+
+@keyframes grow-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.grow-y { transform-origin: bottom; animation: grow-y 900ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes pop { 0% { opacity: 0; transform: scale(0.6); } 70% { transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+.pop { animation: pop 450ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+@keyframes drop-in { from { opacity: 0; transform: translate(-50%, -16px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.drop-in { transform: translateX(-50%); animation: drop-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Aparición al hacer scroll (la clase is-in la pone el componente Reveal) */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1), transform 800ms cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+/* Zoom lento de las fotos de rubros */
+@keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
+.kenburns { animation: kenburns 7s cubic-bezier(0.25, 0.1, 0.25, 1) both; }
+
+/* Cinta de tecnologías */
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 40s linear infinite; }
+.marquee-wrap:hover .marquee { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .marquee { animation: none; } }
