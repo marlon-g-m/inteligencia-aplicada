@@ -20,6 +20,5 @@ Luego abre http://localhost:4321.
 
 ## Antes de publicar
 
-- Reemplazar el correo de ejemplo en `site/index.html` (buscar `TODO`).
 - Confirmar el dominio y actualizar las etiquetas `og:` con la URL real.
 - Publicar la carpeta `site/` en Vercel, Netlify o Cloudflare Pages. Es estática, así que no requiere build.
