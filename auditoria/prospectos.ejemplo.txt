@@ -1,0 +1,3 @@
+# Un sitio por línea. Las líneas con # se ignoran.
+# Ejemplo:
+# https://www.clinica-ejemplo.cl

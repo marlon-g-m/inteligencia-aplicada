@@ -1,0 +1,17 @@
+{
+  "name": "auditoria-web",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Auditoría rápida de sitios web de prospectos (Inteligencia Aplicada)",
+  "type": "module",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "auditar": "node src/auditar.ts",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "typescript": "5.6.3"
+  }
+}
