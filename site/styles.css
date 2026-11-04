@@ -10,11 +10,11 @@
   --fg: #0B1F3A;
   --fg-2: #475569;
   --sep: rgb(11 31 58 / 0.1);
-  --accent: #1D4ED8;
-  --accent-hover: #1E40AF;
+  --accent: #2A44EE;
+  --accent-hover: #1F35C9;
   --on-accent: #FFFFFF;
   --bubble-in: #EEF1F5;
-  --bubble-out: #DCE6FF;
+  --bubble-out: #DFE4FF;
 
   /* Superficies oscuras (portada, secciones tinta): iguales en ambos modos */
   --ink: #0B1F3A;
@@ -173,13 +173,15 @@ a { color: var(--accent); text-underline-offset: 3px; }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; min-height: 72px; gap: 16px; }
 
 .brand {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: 12px;
   text-decoration: none; color: inherit;
   font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; letter-spacing: -0.01em;
 }
 .brand b { font-weight: 800; color: var(--accent-on-ink); }
 .nav[data-state="scrolled"] .brand b, .footer .brand b { color: var(--accent); }
-.brand img { border-radius: 9px; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.18); }
+.brand-mark { width: 40px; height: auto; flex: none; }
+.brand-dot { fill: #4F6BFF; }
+.nav[data-state="scrolled"] .brand-dot { fill: var(--accent); }
 
 .menu { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
 .menu a:not(.btn) {

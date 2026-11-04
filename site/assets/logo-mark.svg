@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Inteligencia Aplicada">
-  <rect width="64" height="64" rx="16" fill="#0B1F3A"/>
-  <rect x="14" y="18" width="6.5" height="28" rx="3.25" fill="#FFFFFF"/>
-  <path d="M28 46 L39 18 L50 46" fill="none" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="39" cy="37" r="3.6" fill="#5B8CFF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 96" role="img" aria-label="Inteligencia Aplicada">
+  <g fill="#0B1F3A" stroke="#0B1F3A">
+  <rect x="0" y="0" width="25" height="96" rx="2"/>
+  <path fill-rule="evenodd" d="M72 0H96L144 96H23ZM84 27L118.5 96H49.5Z"/>
+  <path d="M61 72H107" stroke-width="5"/>
+  </g>
+  <circle cx="84" cy="72" r="9.5" fill="#2A44EE"/>
 </svg>
