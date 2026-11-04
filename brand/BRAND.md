@@ -26,37 +26,42 @@
 | `logo-mark.svg` | Isotipo: avatar de redes, favicon, sellos, firma de correo |
 | `logo-horizontal.svg` | Logo completo: web, propuestas, facturas, presentaciones |
 
-**Concepto:** la **I** es una columna firme (la base, lo que el cliente ya tiene). La **A** es una cumbre de la cordillera (crecimiento, identidad chilena). El **punto cobre** es la chispa de inteligencia que se aplica dentro de la montaña: el cobre es el metal de Chile.
+**Concepto:** la **I** es una columna firme (la base, lo que el cliente ya tiene). La **A** es una cumbre de la cordillera (crecimiento, identidad chilena). El **punto azul** es la chispa de inteligencia que se aplica dentro de la montaña.
 
 **Reglas:**
 - Área de respeto: al menos la mitad del alto del isotipo libre alrededor.
 - Tamaño mínimo: isotipo de 24 px, logo horizontal de 140 px de ancho.
-- No deformar, no rotar, no cambiar el color del punto cobre, no poner sombras ni degradados.
-- Sobre fondos oscuros, el isotipo se mantiene igual (el cuadro tinta ya define su borde); el texto del logo horizontal pasa a blanco y cobre claro.
+- No deformar, no rotar, no cambiar el color del punto, no poner sombras ni degradados.
+- Sobre fondos oscuros, el isotipo lleva un borde fino claro; el texto del logo horizontal pasa a blanco y azul claro.
 - El texto de `logo-horizontal.svg` usa la fuente Manrope. Antes de imprimirlo o enviarlo a una imprenta, conviértelo a trazos (en Figma, Illustrator o Inkscape) para que no dependa de la fuente instalada.
 
 ## Color
 
+Paleta formal: azul marino institucional, blanco y un azul real como único acento. Transmite confianza y seriedad, como una consultora o un banco, sin perder lo tecnológico.
+
 | Token | Claro | Oscuro | Uso |
 |---|---|---|---|
-| Tinta | `#0E1726` | `#EEF1F5` | Texto principal, isotipo, secciones oscuras |
-| Texto secundario | `#4A5568` | `#A7B0BE` | Descripciones, notas |
-| Fondo | `#FAFAF7` | `#0B111C` | Fondo de página |
-| Fondo elevado | `#FFFFFF` | `#131B29` | Tarjetas, formularios |
-| **Cobre** (acento) | `#B5531C` | `#E58A55` | Botones principales, enlaces, el punto del logo |
-| Cobre logo | `#D9733A` | `#D9733A` | Solo el punto del isotipo |
+| Azul marino (tinta) | `#0B1F3A` | `#E8EDF5` | Texto principal, isotipo, portada |
+| Texto secundario | `#475569` | `#9AA8BC` | Descripciones, notas |
+| Fondo | `#F7F8FA` | `#060D1A` | Fondo de página |
+| Fondo elevado | `#FFFFFF` | `#0E1A2E` | Tarjetas, formularios |
+| **Azul real** (acento) | `#1D4ED8` | `#7AA2FF` | Botones principales, enlaces |
+| Azul logo | `#5B8CFF` | `#5B8CFF` | Solo el punto del isotipo |
 
-- El cobre es el **único** color de acento. Va en la acción principal de cada pantalla, no en todo.
-- Contraste verificado: texto blanco sobre cobre `#B5531C` = 5,0:1; cobre sobre fondo claro = 4,8:1; cobre claro sobre fondo oscuro = 7,3:1 (todos cumplen WCAG AA).
+- El azul real es el **único** color de acento. Va en la acción principal de cada pantalla, no en todo.
+- Contraste verificado: blanco sobre azul real = 6,7:1; azul real sobre fondo claro = 6,3:1; azul claro sobre fondo oscuro = 7,8:1 (todos cumplen WCAG AA).
 
 ## Tipografía
 
 - **Títulos:** Manrope (Google Fonts, licencia libre OFL), peso 700–800, espaciado −0,02 em.
+- **Énfasis editorial:** Instrument Serif en cursiva (Google Fonts, OFL), solo para una o dos palabras destacadas en títulos grandes.
 - **Texto:** la fuente del sistema (`system-ui`): San Francisco en Apple, Segoe UI en Windows, Roboto en Android.
 - **Cifras:** tabulares en precios y tablas.
 
 ## Forma y estilo visual
 
+- Portada oscura, cinematográfica, con una animación sutil de flujos de datos (líneas que se mueven lento). Nada de robots.
+- Movimiento al hacer scroll: los bloques aparecen con fundido suave; la portada se desvanece al bajar para dar descanso a la vista.
 - Radios generosos: tarjetas de 20 px, botones en cápsula.
 - Mucho espacio en blanco; se agrupa con espacio antes que con bordes.
 - Íconos de línea, trazo de 1,75 px, esquinas redondeadas.

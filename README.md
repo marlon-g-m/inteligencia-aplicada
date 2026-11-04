@@ -8,6 +8,7 @@ Agencia de automatización, IA, desarrollo web, modernización de sistemas y mig
 |---|---|
 | `brand/` | Guía de marca (`BRAND.md`) y logos en SVG |
 | `site/` | Sitio web de la agencia: HTML, CSS y JS estático, sin dependencias |
+| `docs/` | Brief F.R.A.M.E. y prompts opcionales para Claude Design y recursos visuales |
 
 ## Ver el sitio en local
 
@@ -19,6 +20,6 @@ Luego abre http://localhost:4321.
 
 ## Antes de publicar
 
-- Reemplazar el correo y el WhatsApp de ejemplo en `site/index.html` y `site/main.js` (buscar `TODO`).
+- Reemplazar el correo de ejemplo en `site/index.html` (buscar `TODO`).
 - Confirmar el dominio y actualizar las etiquetas `og:` con la URL real.
 - Publicar la carpeta `site/` en Vercel, Netlify o Cloudflare Pages. Es estática, así que no requiere build.
