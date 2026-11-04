@@ -35,7 +35,12 @@
     form button { width: 46px; height: 46px; border-radius: 999px; border: 0; background: var(--blue); color: #fff; cursor: pointer; display: grid; place-items: center; flex: none; }
     form button:disabled { opacity: 0.5; cursor: default; }
     .chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 10px; }
+    .chips[hidden] { display: none; }
     .chips button { border: 1px solid rgb(11 31 58 / 0.15); background: #fff; border-radius: 999px; padding: 6px 10px; font: inherit; font-size: 0.8125rem; cursor: pointer; color: var(--navy); }
+    .opts { align-self: flex-start; display: flex; flex-direction: column; gap: 4px; width: min(82%, 300px); }
+    .opts button { background: #fff; border: 0; border-radius: 10px; padding: 9px 12px; font: inherit; font-size: 0.875rem; color: #027EB5; cursor: pointer; text-align: center; box-shadow: 0 1px 1px rgb(0 0 0 / 0.08); }
+    .opts button small { display: block; color: var(--muted); font-size: 0.75rem; }
+    .opts button:disabled { opacity: 0.5; cursor: default; }
     .foot { text-align: center; color: #64748B; font-size: 0.75rem; margin-top: 12px; }
     @media (prefers-reduced-motion: reduce) { .typing span { animation: none } }
   </style>
@@ -60,6 +65,7 @@
         <button type="button">Hola, quiero hora para una limpieza</button>
         <button type="button">¿Cuánto sale un blanqueamiento?</button>
         <button type="button">Me duele mucho una muela</button>
+        <button type="button">Hola</button>
       </div>
       <form id="f">
         <label for="t" style="position:absolute;left:-9999px">Mensaje</label>
@@ -81,22 +87,43 @@
     function add(text, cls) {
       const p = document.createElement('p')
       p.className = 'msg ' + cls
-      p.textContent = text
+      // *negrita* como en WhatsApp, sin interpretar HTML
+      text.split(/\*([^*\n]+)\*/).forEach((part, i) => {
+        if (i % 2) { const b = document.createElement('strong'); b.textContent = part; p.append(b) } else p.append(part)
+      })
       const t = document.createElement('time'); t.textContent = hhmm(); p.append(t)
       log.insertBefore(p, typing)
       log.scrollTop = log.scrollHeight
     }
     function note(text) { const p = document.createElement('p'); p.className = 'note'; p.textContent = text; log.insertBefore(p, typing); log.scrollTop = log.scrollHeight }
 
-    async function send(text) {
+    function options(list) {
+      if (!list || !list.length) return
+      const box = document.createElement('div')
+      box.className = 'opts'
+      for (const o of list) {
+        const b = document.createElement('button')
+        b.type = 'button'
+        b.textContent = o.title
+        if (o.description) { const s = document.createElement('small'); s.textContent = o.description; b.append(s) }
+        b.addEventListener('click', () => send(o.title, o.id))
+        box.append(b)
+      }
+      log.insertBefore(box, typing)
+      log.scrollTop = log.scrollHeight
+    }
+
+    async function send(text, opcion) {
+      log.querySelectorAll('.opts button').forEach((b) => (b.disabled = true))
       add(text, 'me')
       document.getElementById('chips').hidden = true
       input.value = ''; sendBtn.disabled = true; typing.classList.add('on')
       try {
-        const r = await fetch('api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sesion, texto: text }) })
+        const r = await fetch('api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sesion, texto: text, opcion }) })
         const d = await r.json()
         if (!r.ok) { note(d.error || 'Error'); if (d.detalle) console.warn(d.detalle); return }
         add(d.texto, 'bot')
+        options(d.opciones)
         if (d.derivada) note('La conversación pasó a recepción (ver el panel).')
       } catch { note('No se pudo conectar con el servidor.') }
       finally { typing.classList.remove('on'); sendBtn.disabled = false; input.focus() }
@@ -106,7 +133,7 @@
     document.querySelectorAll('#chips button').forEach((b) => b.addEventListener('click', () => send(b.textContent)))
     document.getElementById('reset').addEventListener('click', () => {
       sesion = newSession()
-      log.querySelectorAll('.msg, .note').forEach((n) => n.remove())
+      log.querySelectorAll('.msg, .note, .opts').forEach((n) => n.remove())
       note('Nueva conversación.')
       document.getElementById('chips').hidden = false
     })

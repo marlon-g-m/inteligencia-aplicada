@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from 'node:crypto'
+import type { Option } from './assistant.ts'
 
 // Integración con la WhatsApp Business Platform (Cloud API oficial de Meta).
 // Docs: https://developers.facebook.com/docs/whatsapp/cloud-api
@@ -16,6 +17,7 @@ export interface IncomingText {
   from: string // número en formato internacional sin "+", p. ej. 56912345678
   name?: string
   text: string
+  optionId?: string // id de la opción si tocó un botón o una fila de lista
 }
 
 /** Valida que el webhook venga de Meta (HMAC-SHA256 del cuerpo crudo con el App Secret). */
@@ -39,7 +41,13 @@ interface WebhookBody {
     changes?: {
       value?: {
         contacts?: { wa_id?: string; profile?: { name?: string } }[]
-        messages?: { id: string; from: string; type: string; text?: { body?: string } }[]
+        messages?: {
+          id: string
+          from: string
+          type: string
+          text?: { body?: string }
+          interactive?: { type: string; button_reply?: { id: string; title: string }; list_reply?: { id: string; title: string } }
+        }[]
       }
     }[]
   }[]
@@ -55,7 +63,9 @@ export function parseWebhook(body: WebhookBody): { texts: IncomingText[]; others
       const v = change.value
       const names = new Map((v?.contacts ?? []).map((c) => [c.wa_id, c.profile?.name]))
       for (const m of v?.messages ?? []) {
+        const choice = m.interactive?.button_reply ?? m.interactive?.list_reply
         if (m.type === 'text' && m.text?.body) texts.push({ id: m.id, from: m.from, name: names.get(m.from), text: m.text.body })
+        else if (m.type === 'interactive' && choice) texts.push({ id: m.id, from: m.from, name: names.get(m.from), text: choice.title, optionId: choice.id })
         else others.push({ id: m.id, from: m.from })
       }
     }
@@ -76,6 +86,37 @@ export function createWhatsApp(cfg: WhatsAppConfig) {
   return {
     sendText: (to: string, body: string) =>
       post({ messaging_product: 'whatsapp', recipient_type: 'individual', to, type: 'text', text: { preview_url: false, body } }),
+    /** Texto con opciones: hasta 3 como botones; de 4 a 10 como lista desplegable. */
+    sendOptions: (to: string, body: string, options: Option[]) => post(interactivePayload(to, body, options)),
     markRead: (messageId: string) => post({ messaging_product: 'whatsapp', status: 'read', message_id: messageId }),
+  }
+}
+
+const clip = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + '…' : s)
+
+/** Arma el mensaje interactivo respetando los límites de Meta (botón 20 caracteres, fila 24, descripción 72). */
+export function interactivePayload(to: string, body: string, options: Option[]) {
+  const base = { messaging_product: 'whatsapp', recipient_type: 'individual', to, type: 'interactive' }
+  const text = clip(body, 1024)
+  if (options.length <= 3) {
+    return {
+      ...base,
+      interactive: {
+        type: 'button',
+        body: { text },
+        action: { buttons: options.map((o) => ({ type: 'reply', reply: { id: o.id, title: clip(o.title, 20) } })) },
+      },
+    }
+  }
+  return {
+    ...base,
+    interactive: {
+      type: 'list',
+      body: { text },
+      action: {
+        button: 'Ver opciones',
+        sections: [{ title: 'Opciones', rows: options.slice(0, 10).map((o) => ({ id: o.id, title: clip(o.title, 24), ...(o.description ? { description: clip(o.description, 72) } : {}) })) }],
+      },
+    },
   }
 }

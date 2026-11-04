@@ -40,7 +40,7 @@
   </main>
   <script>
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
-    const fmt = (local) => new Date(local + ':00').toLocaleString('es-CL', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+    const fmt = (local) => new Date(local + ':00').toLocaleString('es-CL', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
     const contacto = (c) => c.startsWith('wa:') ? '+' + c.slice(3) : 'Simulador web'
 
     async function load() {

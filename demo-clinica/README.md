@@ -4,11 +4,21 @@ Producto estrella de Inteligencia Aplicada. Un asistente que atiende pacientes p
 
 La clínica de esta demo, **Clínica Dental Sonrisa Sur**, es ficticia. Para un cliente real basta con cambiar `data/clinica.json`.
 
+## Dos modos
+
+| Modo | Costo | Cómo conversa | Cuándo usarlo |
+|---|---|---|---|
+| **guion** (por defecto sin API key) | $0 | Menú con botones y listas de WhatsApp. Entiende frases típicas por palabras clave ("quiero hora para limpieza", "me duele una muela", "cuánto cuesta", "cancelar") y acepta números para elegir. Si no entiende, vuelve a ofrecer las opciones. | Demos con prospectos sin gastar, o clínicas que prefieren un flujo cerrado |
+| **ia** (por defecto con API key) | Pago por uso de la API de Claude | Conversación libre y natural, con las mismas herramientas de agenda | El producto que se vende |
+
+Los dos usan la misma agenda, el mismo panel y la misma conexión a WhatsApp. Se elige con `ASSISTANT_MODE` en el `.env`.
+
 ## Qué incluye
 
 | Pieza | Dónde | Qué hace |
 |---|---|---|
-| Asistente | `src/assistant.ts` | Conversa con la API de Claude y usa 5 herramientas: `buscar_horarios`, `agendar_hora`, `mis_horas`, `cancelar_hora` y `derivar_a_humano` |
+| Asistente con IA | `src/assistant.ts` | Conversa con la API de Claude y usa 5 herramientas: `buscar_horarios`, `agendar_hora`, `mis_horas`, `cancelar_hora` y `derivar_a_humano` |
+| Asistente guiado | `src/scripted.ts` | Flujo con opciones, sin IA: menú, agendar, precios, dirección, mis horas, cancelar, urgencias y derivar a recepción |
 | Agenda | `src/agenda.ts` | Calcula horas libres según horario, almuerzo, feriados, duración del servicio y anticipación mínima. Evita dobles reservas. |
 | WhatsApp | `src/whatsapp.ts` | Webhook oficial de la Cloud API de Meta, con validación de firma y deduplicación de mensajes |
 | Simulador | `http://localhost:3000/demo` | Chat estilo WhatsApp en el navegador, para mostrarle la demo a un prospecto sin configurar Meta |
@@ -31,7 +41,7 @@ npm install
 cp .env.example .env
 ```
 
-Abre `.env` y pega tu `ANTHROPIC_API_KEY`. Luego:
+Para el modo guiado no necesitas completar nada. Para el modo con IA, pega tu `ANTHROPIC_API_KEY` en `.env`. Luego:
 
 ```bash
 npm start
@@ -39,7 +49,7 @@ npm start
 
 Abre http://localhost:3000/demo y conversa. Las horas que agendes aparecen en http://localhost:3000/panel.
 
-Para correr las pruebas, que no requieren API key:
+Para correr las 19 pruebas, que no requieren API key:
 
 ```bash
 npm test
@@ -54,7 +64,7 @@ npm test
 5. Inventa un `WHATSAPP_VERIFY_TOKEN` y completa el `.env`.
 6. El servidor tiene que ser accesible por HTTPS. Para probar desde tu PC, usa un túnel, por ejemplo `cloudflared tunnel --url http://localhost:3000`.
 7. En **WhatsApp > Configuración**, registra el webhook `https://TU-URL/webhook` con tu verify token y suscríbete al campo `messages`.
-8. Escribe desde tu celular al número de prueba.
+8. Escribe desde tu celular al número de prueba. En modo guiado verás los botones y las listas de WhatsApp.
 
 > **Importante:** usa siempre la API oficial. Las librerías no oficiales que imitan WhatsApp Web pueden hacer que Meta bloquee el número de la clínica.
 

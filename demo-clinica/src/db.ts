@@ -53,6 +53,11 @@ export function openDb(path: string) {
       mensajes_hoy INTEGER NOT NULL DEFAULT 0,
       dia TEXT NOT NULL DEFAULT ''
     );
+    CREATE TABLE IF NOT EXISTS guion_estado (
+      contacto TEXT PRIMARY KEY,
+      estado TEXT NOT NULL,
+      actualizada INTEGER NOT NULL
+    );
     CREATE TABLE IF NOT EXISTS mensajes_procesados (
       id TEXT PRIMARY KEY,
       recibido INTEGER NOT NULL
@@ -81,6 +86,9 @@ export function openDb(path: string) {
         mensajes_hoy = excluded.mensajes_hoy, dia = excluded.dia`),
     derivadas: db.prepare(`SELECT contacto, motivo_derivacion, actualizada FROM conversaciones WHERE estado = 'humano' ORDER BY actualizada DESC`),
     volverABot: db.prepare(`UPDATE conversaciones SET estado = 'bot', motivo_derivacion = NULL, mensajes = '[]' WHERE contacto = ?`),
+    getGuion: db.prepare(`SELECT estado, actualizada FROM guion_estado WHERE contacto = ?`),
+    setGuion: db.prepare(`INSERT INTO guion_estado (contacto, estado, actualizada) VALUES (?, ?, ?)
+      ON CONFLICT(contacto) DO UPDATE SET estado = excluded.estado, actualizada = excluded.actualizada`),
     marcarProcesado: db.prepare(`INSERT OR IGNORE INTO mensajes_procesados (id, recibido) VALUES (?, ?)`),
     limpiarProcesados: db.prepare(`DELETE FROM mensajes_procesados WHERE recibido < ?`),
   }
@@ -129,6 +137,13 @@ export function openDb(path: string) {
     },
     returnToBot(contacto: string) {
       q.volverABot.run(contacto)
+    },
+    getScriptState(contacto: string) {
+      const r = q.getGuion.get(contacto) as { estado: string; actualizada: number } | undefined
+      return r ? { estado: JSON.parse(r.estado) as unknown, actualizada: r.actualizada } : null
+    },
+    saveScriptState(contacto: string, estado: unknown, actualizada = Date.now()) {
+      q.setGuion.run(contacto, JSON.stringify(estado), actualizada)
     },
     /** Devuelve true la primera vez que ve un id de mensaje (WhatsApp puede reenviar el mismo webhook). */
     firstTimeSeen(id: string): boolean {

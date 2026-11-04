@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 
-export interface Service { id: string; nombre: string; duracion: number; precio: number; nota?: string }
+export interface Service { id: string; nombre: string; corto: string; palabras: string[]; duracion: number; precio: number; nota?: string }
 export interface Professional { id: string; nombre: string; especialidad: string; servicios: string[] }
 export interface Clinic {
   nombre: string

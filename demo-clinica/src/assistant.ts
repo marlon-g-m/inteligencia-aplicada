@@ -31,9 +31,13 @@ export interface AssistantOptions {
   onHandoff?: (contacto: string, motivo: string) => void | Promise<void>
 }
 
+/** Opción que el paciente puede tocar (botón o lista en WhatsApp, chip en el simulador). */
+export interface Option { id: string; title: string; description?: string }
+
 export interface Reply {
   text: string | null // null: la conversación está en manos de una persona y el bot no responde
   handoff: boolean
+  options?: Option[]
 }
 
 const MAX_TOOL_ROUNDS = 6
