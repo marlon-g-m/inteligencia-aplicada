@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; -webkit-font-smoothing: antialiased; }
+  body { overflow-x: hidden; }
+  :focus-visible { outline: 3px solid #2A44EE; outline-offset: 3px; border-radius: 9999px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+/* Vidrio líquido (definidos para uso futuro) */
+.liquid-glass {
+  position: relative;
+  background: rgba(255, 255, 255, 0.01);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.15));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.liquid-glass-strong {
+  background: rgba(255, 255, 255, 0.01);
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Pulsos que viajan por los conectores del diagrama de flujo */
+@keyframes flow-dash { to { stroke-dashoffset: -40; } }
+.flow-line { stroke-dasharray: 4 6; animation: flow-dash 1.6s linear infinite; }
+
+@keyframes bubble-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+.bubble { animation: bubble-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes typing { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+.typing span { animation: typing 1.2s infinite; }
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes migrate { 0% { transform: scaleX(0.08); } 70%, 100% { transform: scaleX(1); } }
+.migrate-bar { transform-origin: left; animation: migrate 4s cubic-bezier(0.25, 0.1, 0.25, 1) infinite; }

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 96" role="img" aria-label="Inteligencia Aplicada">
-  <g fill="#0B1F3A" stroke="#0B1F3A">
-  <rect x="0" y="0" width="25" height="96" rx="2"/>
-  <path fill-rule="evenodd" d="M72 0H96L144 96H23ZM84 27L118.5 96H49.5Z"/>
-  <path d="M61 72H107" stroke-width="5"/>
-  </g>
-  <circle cx="84" cy="72" r="9.5" fill="#2A44EE"/>
-  <text x="176" y="82" font-family="Manrope, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="68" font-weight="800" letter-spacing="-1.5" fill="#0B1F3A">Inteligencia <tspan fill="#2A44EE">Aplicada</tspan></text>
-</svg>

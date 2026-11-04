@@ -7,18 +7,28 @@ Agencia de automatización, IA, desarrollo web, modernización de sistemas y mig
 | Carpeta | Contenido |
 |---|---|
 | `brand/` | Guía de marca (`BRAND.md`) y logos en SVG |
-| `site/` | Sitio web de la agencia: HTML, CSS y JS estático, sin dependencias |
+| `web/` | Sitio web: React 18 + Vite + Tailwind CSS 3.4, portada con el paquete `shaders` (WebGPU) |
 | `docs/` | Brief F.R.A.M.E. y prompts opcionales para Claude Design y recursos visuales |
 
 ## Ver el sitio en local
 
 ```bash
-npx serve@14.2.4 site -l 4321
+npm --prefix web install
 ```
 
-Luego abre http://localhost:4321.
+```bash
+npm --prefix web run dev
+```
 
-## Antes de publicar
+Luego abre http://localhost:5173.
 
-- Confirmar el dominio y actualizar las etiquetas `og:` con la URL real.
-- Publicar la carpeta `site/` en Vercel, Netlify o Cloudflare Pages. Es estática, así que no requiere build.
+## Publicación
+
+Cada push a `main` que toque `web/` compila el sitio y lo publica en GitHub Pages:
+https://marlon-g-m.github.io/inteligencia-aplicada/
+
+La portada usa WebGPU. En navegadores sin soporte queda un degradado azul marino de respaldo.
+
+## Pendientes
+
+- Conectar el dominio `.cl` cuando esté comprado.
