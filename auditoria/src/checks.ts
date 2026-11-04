@@ -161,7 +161,7 @@ export function analyze(p: PageData, fecha = new Date().toISOString().slice(0, 1
   )
 
   /* 7. Formulario */
-  const form = /<form\b/i.test(html) || /formspree|wpcf7|gform|hsforms|typeform|jotform|forms\.gle|docs\.google\.com\/forms/.test(h) || /createelement\(\s*["']form["']|jsx\(\s*["']form["']/.test(js)
+  const form = /<form\b/i.test(html) || /formspree|wpcf7|gform|hsforms|typeform|jotform|forms\.gle|docs\.google\.com\/forms/.test(h) || /createelement\(\s*["']form["']|jsxs?\(\s*["']form["']/.test(js)
   f.push(
     form
       ? { id: 'formulario', titulo: 'Formulario de contacto', nivel: 'ok', peso: 5, detalle: 'Tiene un formulario de contacto.',

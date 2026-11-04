@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Mail, MapPin, MessageCircle, Plus } from 'lucide-react'
+import { CalendarDays, Mail, MapPin, MessageCircle, Phone, Plus } from 'lucide-react'
 import { EASE, EMAIL, LogoMark, SectionBadge, WHATSAPP, RollText } from '../components/ui'
 import { ArrowRight } from 'lucide-react'
 
@@ -201,9 +201,15 @@ export function Contact() {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const empresa = data.get('empresa') ? ` de ${data.get('empresa')}` : ''
-    const text = `Hola, soy ${data.get('nombre')}${empresa}. ${data.get('mensaje')}`
+    const dia = String(data.get('dia') ?? '')
+    const diaTexto = dia ? new Date(`${dia}T12:00:00`).toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' }) : ''
+    const agenda = dia ? ` Me gustaría agendar el diagnóstico el ${diaTexto}, en la ${data.get('bloque')}.` : ''
+    const mensaje = String(data.get('mensaje') ?? '').trim().replace(/([^.!?])$/, '$1.')
+    const text = `Hola, soy ${data.get('nombre')}${empresa}. ${mensaje}${agenda}`
     window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank', 'noopener')
   }
+  const today = new Date()
+  const minDay = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10)
   const field = 'w-full rounded-xl border border-gray-200 bg-[#F5F5F5] px-4 py-3 text-[15px] text-gray-900 outline-none transition-colors duration-300 placeholder:text-gray-500 focus:border-[#2A44EE] focus:bg-white'
 
   return (
@@ -219,25 +225,46 @@ export function Contact() {
           </p>
           <ul className="mt-10 grid gap-4 px-5 text-[14px] sm:px-8 sm:text-[15px] lg:px-12">
             <li className="flex items-center gap-3"><MessageCircle size={18} className="text-[#7AA2FF]" aria-hidden="true" /><a className="hover:underline" href={`https://wa.me/${WHATSAPP}`} rel="noopener">WhatsApp +56 9 7663 0940</a></li>
+            <li className="flex items-center gap-3"><Phone size={18} className="text-[#7AA2FF]" aria-hidden="true" /><a className="hover:underline" href={`tel:+${WHATSAPP}`}>Llámanos: +56 9 7663 0940</a></li>
             <li className="flex items-center gap-3"><Mail size={18} className="text-[#7AA2FF]" aria-hidden="true" /><a className="hover:underline" href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
             <li className="flex items-center gap-3 text-white/70"><MapPin size={18} className="text-[#7AA2FF]" aria-hidden="true" />Santiago, Chile · Atendemos en todo el país</li>
           </ul>
         </div>
 
-        <form onSubmit={onSubmit} className="mx-5 grid gap-4 rounded-2xl bg-white p-6 text-gray-900 sm:mx-8 sm:p-8 lg:mx-12 lg:self-end">
+        <form onSubmit={onSubmit} className="mx-5 grid gap-4 rounded-2xl bg-white p-6 text-gray-900 sm:mx-8 sm:p-8 lg:mx-12 lg:self-end" aria-labelledby="agenda-titulo">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2A44EE]/10 text-[#2A44EE]"><CalendarDays size={18} aria-hidden="true" /></span>
+            <div>
+              <h3 id="agenda-titulo" className="text-[16px] font-semibold">Agenda tu cita de diagnóstico en línea</h3>
+              <p className="text-[13px] text-gray-500">30 minutos por videollamada, sin costo. Te confirmamos por WhatsApp.</p>
+            </div>
+          </div>
           <label className="grid gap-2 text-[13px] font-medium">Nombre<input name="nombre" autoComplete="name" required className={field} /></label>
           <label className="grid gap-2 text-[13px] font-medium">Empresa<input name="empresa" autoComplete="organization" className={field} /></label>
           <label className="grid gap-2 text-[13px] font-medium">
             ¿Qué te gustaría mejorar?
             <textarea name="mensaje" rows={4} required placeholder="Ej.: respondemos todo por WhatsApp a mano y se nos pierden clientes." className={`${field} resize-y`} />
           </label>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-[13px] font-medium">Día preferido<input type="date" name="dia" min={minDay} required className={field} /></label>
+            <label className="grid gap-2 text-[13px] font-medium">
+              Horario
+              <select name="bloque" required className={field} defaultValue="mañana (9:00 a 13:00)">
+                <option>mañana (9:00 a 13:00)</option>
+                <option>tarde (14:00 a 19:00)</option>
+              </select>
+            </label>
+          </div>
           <button type="submit" className="group mt-2 flex w-fit items-center gap-3 rounded-full bg-[#2A44EE] py-2 pl-6 pr-2 text-[14px] font-medium text-white transition-colors duration-300 hover:bg-[#1F35C9]">
-            <RollText>Enviar por WhatsApp</RollText>
+            <RollText>Solicitar mi cita</RollText>
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
               <ArrowRight size={15} className={`text-[#2A44EE] transition-transform duration-500 ${EASE} group-hover:-rotate-45`} />
             </span>
           </button>
-          <p className="text-[12px] text-gray-500">Al enviar se abre WhatsApp con tu mensaje listo. No guardamos tus datos en este sitio.</p>
+          <p className="text-[12px] text-gray-500">
+            Al enviar se abre WhatsApp con tu solicitud lista. Este sitio no guarda tus datos. Más detalles en nuestra{' '}
+            <a href="./politica-de-privacidad.html" className="underline hover:text-gray-900">política de privacidad</a>.
+          </p>
         </form>
       </div>
     </section>
@@ -254,7 +281,10 @@ export function Footer() {
           <LogoMark className="w-9 text-white" dot="#4F6BFF" />
           <span className="text-[15px] font-semibold">Inteligencia <span className="text-[#7AA2FF]">Aplicada</span></span>
         </a>
-        <p className="text-[13px] text-white/60">© {new Date().getFullYear()} Inteligencia Aplicada SpA · Santiago, Chile</p>
+        <div className="flex flex-col gap-2 text-[13px] text-white/60 sm:items-end">
+          <a href="./politica-de-privacidad.html" className="hover:text-white hover:underline">Política de privacidad</a>
+          <p>© {new Date().getFullYear()} Inteligencia Aplicada · Santiago, Chile</p>
+        </div>
       </div>
     </footer>
   )
