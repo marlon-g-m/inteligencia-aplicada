@@ -286,7 +286,10 @@ export function Footer() {
           <span className="text-[15px] font-semibold">Inteligencia <span className="text-[#7AA2FF]">Aplicada</span></span>
         </a>
         <div className="flex flex-col gap-2 text-[13px] text-white/60 sm:items-end">
-          <a href="./politica-de-privacidad.html" className="hover:text-white hover:underline">Política de privacidad</a>
+          <div className="flex gap-4">
+            <a href="./politica-de-privacidad.html" className="hover:text-white hover:underline">Política de privacidad</a>
+            <a href="./terminos-de-uso.html" className="hover:text-white hover:underline">Términos de uso</a>
+          </div>
           <p>© {new Date().getFullYear()} Inteligencia Aplicada · Santiago, Chile · Fotos: <a href="https://unsplash.com" className="hover:text-white hover:underline">Unsplash</a></p>
         </div>
       </div>

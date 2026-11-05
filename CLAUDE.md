@@ -14,6 +14,7 @@ Repositorio de la agencia **Inteligencia Aplicada**, una consultora tecnológica
 | `brand/` | Guía de marca (`BRAND.md`), logos SVG y la fuente de la imagen Open Graph (`og-image.html`). |
 | `demo-clinica/` | Demo de asistente de WhatsApp para una clínica (Node 24, `node:sqlite`). Modo guiado gratis o modo IA con `ANTHROPIC_API_KEY`. |
 | `auditoria/` | Herramienta de auditoría web para prospectos: `node src/auditar.ts <url>`. |
+| `ventas/` | Kit de ventas: propuesta tipo, contrato, NDA, anexo de datos (Ley 21.719) y checklist de diagnóstico. Los legales son borradores para abogado. |
 | `docs/` | Plan de implementación, hitos (`HITOS.md`) y brief F.R.A.M.E. |
 
 ## Reglas
