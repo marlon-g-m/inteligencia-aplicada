@@ -3,7 +3,7 @@
 Repositorio de la agencia **Inteligencia Aplicada**, una consultora tecnológica chilena: software a medida, apps, páginas web, asistentes de WhatsApp con IA, automatización y migración a la nube.
 
 - Remoto: github.com/marlon-g-m/inteligencia-aplicada (rama `main`).
-- Web publicada: https://marlon-g-m.github.io/inteligencia-aplicada/
+- Web publicada: https://inteligenciaaplicada.vercel.app/ (Vercel, plan Hobby; proyecto `marlon-g/inteligencia-aplicada`, deploy con `npx vercel@48.10.2 deploy --prod` desde `web/`). GitHub Pages sigue activo como respaldo.
 - Contacto de la marca: WhatsApp +56 9 7663 0940 · inteligenciaaplicada.cl@gmail.com
 
 ## Carpetas
