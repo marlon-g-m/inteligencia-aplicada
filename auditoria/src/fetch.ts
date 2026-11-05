@@ -3,7 +3,7 @@ import { isJsRendered, type PageData } from './checks.ts'
 // Descarga solo la página de inicio (un pedido, más uno para comprobar la redirección http→https).
 // No recorre el sitio ni guarda datos personales.
 
-const UA = 'Mozilla/5.0 (compatible; InteligenciaAplicada-Auditoria/1.0; +https://marlon-g-m.github.io/inteligencia-aplicada/)'
+const UA = 'Mozilla/5.0 (compatible; InteligenciaAplicada-Auditoria/1.0; +https://inteligenciaaplicada.vercel.app/)'
 const MAX_BYTES = 3 * 1024 * 1024
 
 export function normalizeUrl(input: string): string {

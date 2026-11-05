@@ -7,7 +7,7 @@ export const AGENCIA: Agency = {
   whatsapp: '56976630940',
   whatsappTexto: '+56 9 7663 0940',
   email: 'inteligenciaaplicada.cl@gmail.com',
-  web: 'https://marlon-g-m.github.io/inteligencia-aplicada/',
+  web: 'https://inteligenciaaplicada.vercel.app/',
 }
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!)
