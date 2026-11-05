@@ -21,7 +21,7 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 - [ ] 👤 Crear el Perfil de Empresa en Google
 - [ ] 👤 Crear la página de empresa en LinkedIn y actualizar tu perfil personal (título: "Fundador · Inteligencia Aplicada")
 - [ ] 👤 Enviarme tu foto profesional y una biografía corta
-- [ ] 🤖 Agregar a la web la sección "Quién está detrás", la política de privacidad y los términos de uso
+- [ ] 🤖 Agregar a la web la sección "Quién está detrás" (falta tu foto y biografía). Política de privacidad y términos de uso: listos
 
 **Listo cuando:** la web está en el dominio `.cl`, con correo propio, tu cara visible y la política de privacidad publicada.
 
@@ -34,10 +34,10 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 - [x] 👤 Elegir el primer rubro: **clínicas** (4 nov)
 - [ ] 🤖 Construir el **demo funcional del asistente de WhatsApp** para ese rubro (Cloud API + IA + agenda), en un número de prueba. Código listo en `demo-clinica/`; falta 👤 la API key de Anthropic y la app de Meta
 - [x] 🤖 Plantilla reutilizable del bot (repositorio propio, documentada): `demo-clinica/`, se adapta con `data/clinica.json`
-- [ ] 🤖 Propuesta comercial tipo (Docs o PDF): alcance, plazos, precio en UF y garantía
-- [ ] 🤖 Borradores de contrato de servicios, NDA y anexo de tratamiento de datos
+- [x] 🤖 Propuesta comercial tipo: alcance, plazos, precio en UF y garantía: `ventas/propuesta-comercial.md`
+- [x] 🤖 Borradores de contrato de servicios, NDA y anexo de tratamiento de datos: `ventas/`
 - [ ] 👤 Revisión de los contratos con un abogado (idealmente un aliado para la parte legal de la Ley 21.719)
-- [ ] 🤖 Checklist de diagnóstico de 30 minutos (preguntas, qué observar, plantilla de resumen)
+- [x] 🤖 Checklist de diagnóstico de 30 minutos (preguntas, qué observar, plantilla de resumen): `ventas/checklist-diagnostico.md`
 - [x] 🤖 Herramienta de auditoría para prospectos: analiza una web (velocidad, celular, HTTPS, botón de WhatsApp) y genera un informe de 1 página: `auditoria/`
 - [ ] 👤 Definir los precios "desde" de los 4 paquetes
 - [ ] 🤖 Publicar los precios "desde" y el demo en la web
@@ -104,3 +104,4 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 | 2026-11-04 | Web v2 en React con portada animada | Publicada |
 | 2026-11-04 | Modo guiado sin IA del asistente (costo $0) y herramienta de auditoría para prospectos | `demo-clinica/`, `auditoria/` |
 | 2026-11-04 | Asistente de WhatsApp para clínicas (código, simulador, panel y 11 pruebas) | `demo-clinica/`, pendiente la conexión real |
+| 2026-11-05 | Kit de ventas: propuesta tipo, contrato, NDA, anexo de datos y checklist de diagnóstico; términos de uso en la web | `ventas/`, contratos pendientes de revisión legal |
