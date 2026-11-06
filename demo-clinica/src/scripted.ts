@@ -94,7 +94,7 @@ export function createScripted(o: ScriptedOptions) {
       const slots = o.agenda.freeSlots({ servicio: s.id, desde: day, hasta: day, max: 15 })
       if (slots.length) {
         const d = describe(day)
-        days.push({ id: `dia:${day}`, title: cap(d).slice(0, 24), description: slots.length >= 15 ? 'Más de 15 horas disponibles' : `${slots.length} ${slots.length === 1 ? 'hora disponible' : 'horas disponibles'}` })
+        days.push({ id: `dia:${day}`, title: shortDay(cap(d)), description: slots.length >= 15 ? 'Más de 15 horas disponibles' : `${slots.length} ${slots.length === 1 ? 'hora disponible' : 'horas disponibles'}` })
       }
     }
     if (!days.length) {
@@ -325,3 +325,6 @@ export function createScripted(o: ScriptedOptions) {
 }
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+
+/** Las filas de las listas de WhatsApp admiten 24 caracteres: "Miércoles 11 de noviembre" → "Miércoles 11 de nov.". */
+const shortDay = (s: string) => (s.length <= 24 ? s : s.replace(/ de (\p{L}{3})\p{L}+$/u, ' de $1.')).slice(0, 24)
