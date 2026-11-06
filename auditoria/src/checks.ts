@@ -130,7 +130,11 @@ export function analyze(p: PageData, fecha = new Date().toISOString().slice(0, 1
           : heavy
             ? `El servidor responde rápido, pero la página pesa ${kb} KB solo en código, varias veces lo recomendable. En un celular con mala señal tarda en abrir.`
             : `El servidor entregó la página en ${(p.ms / 1000).toFixed(1)} s (${kb} KB de HTML).`,
-      ...(slow || p.ms > 1200 || heavy ? { propuesta: 'Mejorar el hosting y la carga para que la web abra rápido.', servicio: 'web' as const } : {}),
+      ...(slow || p.ms > 1200
+        ? { propuesta: 'Mejorar el hosting y la carga para que la web abra rápido.', servicio: 'web' as const }
+        : heavy
+          ? { propuesta: 'Aligerar la página para que abra rápido en el celular.', servicio: 'web' as const }
+          : {}),
     })
   }
 
