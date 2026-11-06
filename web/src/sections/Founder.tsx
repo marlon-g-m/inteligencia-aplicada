@@ -5,7 +5,7 @@ import { Reveal, SectionBadge } from '../components/ui'
  * Foto del fundador. Cuando esté, guárdala en public/img/marlon.webp (cuadrada, unos 800 px)
  * y cambia esto a './img/marlon.webp'. Mientras sea null se muestran las iniciales.
  */
-const FOTO: string | null = null
+const FOTO: string | null = './img/marlon.webp'
 
 const LINKEDIN = 'https://www.linkedin.com/in/marlon-gonzalez-meza'
 const PORTAFOLIO = 'https://portafolio-marlon-g.vercel.app'
