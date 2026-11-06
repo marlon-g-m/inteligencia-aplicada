@@ -149,7 +149,7 @@ export default function Pricing() {
           <div className="rounded-2xl border border-[#2A44EE]/20 bg-[#EEF1FF] p-5 sm:p-6">
             <p className="text-[15px] font-semibold text-gray-900">Buscamos 2 clientes piloto</p>
             <p className="mt-1 text-[14px] leading-relaxed text-gray-600">
-              40 % de descuento en la implementación, a cambio de contar tu caso (con tu permiso), una reseña en Google y una conversación de feedback al mes de uso.
+              20 % de descuento en la implementación, a cambio de contar tu caso (con tu permiso), una reseña en Google y una conversación de feedback al mes de uso.
             </p>
           </div>
           <div className="rounded-2xl bg-[#F5F5F5] p-5 sm:p-6">

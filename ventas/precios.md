@@ -7,7 +7,7 @@
 - **Precios de entrada bajos**, para empezar a vender sin casos de éxito todavía. El valor final depende de lo que necesite cada cliente y se cierra en la propuesta.
 - **Asistente de WhatsApp: una ganancia neta de unos $300.000 por implementación.** Lo demás cubre la administración y lo necesario para crearlo (ver el desglose).
 - **Cada paquete tiene una mensualidad**, porque el ingreso recurrente es lo que sostiene la agencia (Fase 3).
-- **Pilotos:** 40 % de descuento en la implementación, a cambio de un caso de éxito, una reseña y feedback. ⚠️ Con el asistente a 10 UF, el piloto queda en 6 UF (≈ $248.000) y no alcanza a cubrir la ganancia buscada. Hay que decidir si el descuento se mantiene.
+- **Pilotos:** 20 % de descuento en la implementación (decidido el 5 nov 2026, antes era 40 %), a cambio de un caso de éxito, una reseña y feedback. El asistente piloto queda en 8 UF (≈ $330.000), con una ganancia neta de unos $220.000.
 
 ## Los 4 paquetes
 
