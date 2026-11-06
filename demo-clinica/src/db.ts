@@ -24,6 +24,15 @@ export interface Conversation {
   dia: string
 }
 
+/** Confirmación de asistencia que el agente envía el día anterior a la cita. */
+export interface Confirmation {
+  cita_id: number
+  contacto: string
+  estado: 'enviada' | 'confirmada' | 'cancelada'
+  enviada: string // "YYYY-MM-DDTHH:mm"
+  respondida: string | null
+}
+
 export type DB = ReturnType<typeof openDb>
 
 export function openDb(path: string) {
@@ -58,6 +67,13 @@ export function openDb(path: string) {
       estado TEXT NOT NULL,
       actualizada INTEGER NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS confirmaciones (
+      cita_id INTEGER PRIMARY KEY,
+      contacto TEXT NOT NULL,
+      estado TEXT NOT NULL,
+      enviada TEXT NOT NULL,
+      respondida TEXT
+    );
     CREATE TABLE IF NOT EXISTS mensajes_procesados (
       id TEXT PRIMARY KEY,
       recibido INTEGER NOT NULL
@@ -89,6 +105,15 @@ export function openDb(path: string) {
     getGuion: db.prepare(`SELECT estado, actualizada FROM guion_estado WHERE contacto = ?`),
     setGuion: db.prepare(`INSERT INTO guion_estado (contacto, estado, actualizada) VALUES (?, ?, ?)
       ON CONFLICT(contacto) DO UPDATE SET estado = excluded.estado, actualizada = excluded.actualizada`),
+    citaPorId: db.prepare(`SELECT * FROM citas WHERE id = ?`),
+    getConf: db.prepare(`SELECT * FROM confirmaciones WHERE cita_id = ?`),
+    setConf: db.prepare(`INSERT INTO confirmaciones (cita_id, contacto, estado, enviada, respondida) VALUES (?, ?, ?, ?, ?)
+      ON CONFLICT(cita_id) DO UPDATE SET estado = excluded.estado, respondida = excluded.respondida`),
+    confPendiente: db.prepare(`SELECT f.* FROM confirmaciones f JOIN citas c ON c.id = f.cita_id
+      WHERE f.contacto = ? AND f.estado = 'enviada' AND c.estado = 'confirmada' AND c.inicio >= ? ORDER BY c.inicio LIMIT 1`),
+    confEntre: db.prepare(`SELECT c.*, f.estado AS confirmacion, f.enviada, f.respondida FROM citas c
+      LEFT JOIN confirmaciones f ON f.cita_id = c.id
+      WHERE c.inicio >= ? AND c.inicio < ? AND (c.estado = 'confirmada' OR f.cita_id IS NOT NULL) ORDER BY c.inicio`),
     marcarProcesado: db.prepare(`INSERT OR IGNORE INTO mensajes_procesados (id, recibido) VALUES (?, ?)`),
     limpiarProcesados: db.prepare(`DELETE FROM mensajes_procesados WHERE recibido < ?`),
   }
@@ -144,6 +169,23 @@ export function openDb(path: string) {
     },
     saveScriptState(contacto: string, estado: unknown, actualizada = Date.now()) {
       q.setGuion.run(contacto, JSON.stringify(estado), actualizada)
+    },
+    appointment(id: number) {
+      return (q.citaPorId.get(id) as unknown as Appointment | undefined) ?? null
+    },
+    getConfirmation(citaId: number) {
+      return (q.getConf.get(citaId) as unknown as Confirmation | undefined) ?? null
+    },
+    saveConfirmation(c: Confirmation) {
+      q.setConf.run(c.cita_id, c.contacto, c.estado, c.enviada, c.respondida)
+    },
+    /** La confirmación enviada más próxima que este contacto aún no responde (de una hora que sigue vigente). */
+    pendingConfirmation(contacto: string, desde: string) {
+      return (q.confPendiente.get(contacto, desde) as unknown as Confirmation | undefined) ?? null
+    },
+    /** Citas de un rango con el estado de su confirmación (incluye las canceladas por confirmación). */
+    confirmationsBetween(desde: string, hasta: string) {
+      return q.confEntre.all(desde, hasta) as unknown as (Appointment & { confirmacion: Confirmation['estado'] | null; enviada: string | null; respondida: string | null })[]
     },
     /** Devuelve true la primera vez que ve un id de mensaje (WhatsApp puede reenviar el mismo webhook). */
     firstTimeSeen(id: string): boolean {

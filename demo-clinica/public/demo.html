@@ -61,6 +61,9 @@
         <p class="note">Demo con una clínica ficticia. No ingreses datos reales.</p>
         <div class="typing" id="typing" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
+      <div class="chips" id="sim" hidden>
+        <button type="button" id="simconf">🔔 Simular la confirmación del día anterior</button>
+      </div>
       <div class="chips" id="chips">
         <button type="button">Hola, quiero hora para una limpieza</button>
         <button type="button">¿Cuánto sale un blanqueamiento?</button>
@@ -125,10 +128,21 @@
         add(d.texto, 'bot')
         options(d.opciones)
         if (d.derivada) note('La conversación pasó a recepción (ver el panel).')
+        if (/Quedaste agendad/.test(d.texto)) document.getElementById('sim').hidden = false
       } catch { note('No se pudo conectar con el servidor.') }
       finally { typing.classList.remove('on'); sendBtn.disabled = false; input.focus() }
     }
 
+    document.getElementById('simconf').addEventListener('click', async () => {
+      try {
+        const r = await fetch('api/simular-confirmacion', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sesion }) })
+        const d = await r.json()
+        if (!r.ok) { note(d.error || 'Error'); return }
+        note('Un día antes de tu hora te llega este mensaje:')
+        add(d.texto, 'bot')
+        options(d.opciones)
+      } catch { note('No se pudo conectar con el servidor.') }
+    })
     document.getElementById('f').addEventListener('submit', (e) => { e.preventDefault(); const v = input.value.trim(); if (v) send(v) })
     document.querySelectorAll('#chips button').forEach((b) => b.addEventListener('click', () => send(b.textContent)))
     document.getElementById('reset').addEventListener('click', () => {
@@ -136,6 +150,7 @@
       log.querySelectorAll('.msg, .note, .opts').forEach((n) => n.remove())
       note('Nueva conversación.')
       document.getElementById('chips').hidden = false
+      document.getElementById('sim').hidden = true
     })
   </script>
 </body>

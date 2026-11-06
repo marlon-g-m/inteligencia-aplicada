@@ -20,9 +20,10 @@ Los dos usan la misma agenda, el mismo panel y la misma conexión a WhatsApp. Se
 | Asistente con IA | `src/assistant.ts` | Conversa con la API de Claude y usa 5 herramientas: `buscar_horarios`, `agendar_hora`, `mis_horas`, `cancelar_hora` y `derivar_a_humano` |
 | Asistente guiado | `src/scripted.ts` | Flujo con opciones, sin IA: menú, agendar, precios, dirección, mis horas, cancelar, urgencias y derivar a recepción |
 | Agenda | `src/agenda.ts` | Calcula horas libres según horario, almuerzo, feriados, duración del servicio y anticipación mínima. Evita dobles reservas. |
+| Agente de confirmaciones | `src/confirmaciones.ts` | El día anterior pide confirmar la hora por WhatsApp. Si el paciente no puede ir, le ofrece otra hora o solo cancelar, libera el cupo y avisa a recepción |
 | WhatsApp | `src/whatsapp.ts` | Webhook oficial de la Cloud API de Meta, con validación de firma y deduplicación de mensajes |
 | Simulador | `http://localhost:3000/demo` | Chat estilo WhatsApp en el navegador, para mostrarle la demo a un prospecto sin configurar Meta |
-| Panel de recepción | `http://localhost:3000/panel` | Próximas horas y conversaciones derivadas, con un botón para devolverlas al asistente |
+| Panel de recepción | `http://localhost:3000/panel` | Próximas horas, confirmaciones de mañana (confirmó, sin respuesta o canceló) y conversaciones derivadas, con un botón para devolverlas al asistente |
 | Datos | SQLite incluido en Node (`data/demo.db`) | Sin servidor de base de datos |
 
 ## Puesta en marcha local (5 minutos)
@@ -49,7 +50,7 @@ npm start
 
 Abre http://localhost:3000/demo y conversa. Las horas que agendes aparecen en http://localhost:3000/panel.
 
-Para correr las 19 pruebas, que no requieren API key:
+Para correr las 30 pruebas, que no requieren API key:
 
 ```bash
 npm test
@@ -71,6 +72,39 @@ npm test
 ### Lo que cobra Meta ⚠️
 
 Responder a un paciente dentro de las 24 horas desde su último mensaje no tiene costo de Meta. Los mensajes que inicia la clínica, como los recordatorios, requieren **plantillas aprobadas** y Meta los cobra por mensaje. Revisa los precios vigentes para Chile en la documentación de Meta antes de cotizar.
+
+## Agente de confirmaciones
+
+Cada día, a la hora de `CONFIRMACIONES_HORA` (por defecto, 10:00 en hora de la clínica), el servidor envía la confirmación a cada paciente que tiene hora al día siguiente. No repite envíos: si el servidor se reinicia o se aprieta **Enviar ahora** en el panel, solo sale lo que falta.
+
+| El paciente responde | Qué pasa |
+|---|---|
+| **Confirmo** (o escribe "sí") | La hora queda confirmada en el panel |
+| **No puedo ir** (o escribe "no puedo") | Se le pregunta si quiere **otra hora** o **solo cancelar** |
+| Otra hora | Se libera la hora y sigue el agente de agenda con el mismo servicio |
+| Solo cancelar | Se libera la hora y recepción recibe un aviso con el cupo libre (`STAFF_WHATSAPP`) |
+| Cualquier otra cosa | La responde el agente de siempre |
+
+El texto libre ("sí", "no puedo") solo se entiende como respuesta justo después del recordatorio. Si la conversación sigue por otro lado, un "sí" es para el agente de agenda. Los botones funcionan siempre, porque traen el número de la cita.
+
+**Probarlo sin WhatsApp:** en el simulador, agenda una hora y aprieta **🔔 Simular la confirmación del día anterior**.
+
+### Plantilla en Meta (obligatoria para enviarlo por WhatsApp)
+
+Meta solo deja que el negocio inicie la conversación con una plantilla aprobada. Créala en **WhatsApp Manager → Plantillas de mensajes**:
+
+- **Nombre:** `confirmacion_hora` (o el que pongas en `WHATSAPP_PLANTILLA_CONFIRMACION`).
+- **Categoría:** Utilidad. **Idioma:** Español (`es`, o el que pongas en `WHATSAPP_PLANTILLA_IDIOMA`).
+- **Cuerpo**, con el nombre real de la clínica:
+
+  ```text
+  Hola {{1}} 👋 Te recordamos tu hora en Clínica Dental Sonrisa Sur: {{2}} con {{3}}, el {{4}} a las {{5}}. ¿Nos confirmas tu asistencia?
+  ```
+
+  Las variables son: {{1}} el nombre, {{2}} el servicio, {{3}} el profesional, {{4}} el día y {{5}} la hora.
+- **Botones** de respuesta rápida, en este orden: `Confirmo` y `No puedo ir`.
+
+Meta revisa la plantilla, normalmente en minutos u horas. **Cada mensaje de plantilla tiene costo** (categoría utilidad). Revisa el precio vigente para Chile en la documentación de Meta y cóbraselo al cliente tal cual, sin margen, como dicen los precios de la agencia.
 
 ## Costos de la IA
 
@@ -97,7 +131,7 @@ Edita `data/clinica.json`: nombre, dirección, horario por día, feriados, profe
 
 ## Próximos pasos del producto
 
-- [ ] Recordatorio automático el día anterior (requiere una plantilla aprobada por Meta)
+- [x] Confirmación automática el día anterior (falta crear la plantilla en Meta para cada cliente)
 - [ ] Sincronización con Google Calendar o con el software de agenda que ya use la clínica
 - [ ] Mensajes de voz (transcripción) e imágenes
 - [ ] Publicar el simulador en un servidor para enlazarlo desde la web de la agencia

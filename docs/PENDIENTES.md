@@ -41,7 +41,8 @@ Actualizado: 6 de noviembre de 2026.
 
 ## Puede hacerlo Claude
 
-- [ ] **Construir el agente de confirmaciones** en `demo-clinica/`. Ya se vende en la web. Tiene que enviar las plantillas de Meta del día anterior, reagendar a quien no puede venir y avisar a recepción los cupos liberados, con pruebas.
+- [x] **Agente de confirmaciones** construido en `demo-clinica/` (6 nov): envío diario, reagendar o cancelar, aviso de cupo libre, panel y simulador, con 11 pruebas. Falta: crear la plantilla `confirmacion_hora` en Meta cuando exista la app (ver `demo-clinica/README.md`) y probarlo con un número real.
+- [ ] **Opcional:** sumar la confirmación al demo de la web (`web/`), que hoy solo tiene el agente de agenda.
 - [ ] **Cuando exista el dominio:** conectarlo a Vercel y configurar `contacto@inteligenciaaplicada.cl` (Cloudflare Email Routing + "Enviar como" en Gmail).
 - [ ] **Cuando estén la API key y la app de Meta:** conectar el asistente de `demo-clinica/` a WhatsApp y probarlo de punta a punta.
 - [ ] **Calendario de LinkedIn:** 8 publicaciones redactadas (el demo, un antes y después, la Ley 21.719, etc.).

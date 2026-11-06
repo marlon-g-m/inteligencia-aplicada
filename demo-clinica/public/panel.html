@@ -12,7 +12,7 @@
     header h1 { margin: 0; font-size: 1.125rem; }
     header p { margin: 2px 0 0; opacity: .75; font-size: .8125rem; }
     main { max-width: 1000px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; }
-    section { background: #fff; border-radius: 16px; padding: 20px; }
+    section { background: #fff; border-radius: 16px; padding: 20px; min-width: 0; }
     h2 { margin: 0 0 12px; font-size: 1rem; }
     table { width: 100%; border-collapse: collapse; font-size: .875rem; }
     th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--sep); vertical-align: top; }
@@ -21,6 +21,11 @@
     .empty { color: var(--muted); font-size: .875rem; margin: 0; }
     button { border: 0; border-radius: 999px; background: var(--blue); color: #fff; padding: 8px 14px; font: inherit; font-size: .8125rem; cursor: pointer; }
     .scroll { overflow-x: auto; }
+    .head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .head h2 { margin: 0; min-width: 0; }
+    .hint { color: var(--muted); font-size: .8125rem; margin: 0 0 12px; }
+    .pill { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: .75rem; font-weight: 600; white-space: nowrap; }
+    .ok { background: #DCFCE7; color: #166534; } .no { background: #FEE2E2; color: #991B1B; } .wait { background: #FEF3C7; color: #854D0E; } .none { background: #F1F5F9; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -32,6 +37,11 @@
     <section>
       <h2>Conversaciones derivadas a recepción</h2>
       <div id="handoffs"></div>
+    </section>
+    <section>
+      <div class="head"><h2 id="conf-title">Confirmaciones de mañana</h2><button id="conf-send" type="button">Enviar ahora</button></div>
+      <p class="hint" id="conf-hint"></p>
+      <div class="scroll" id="confirmaciones"></div>
     </section>
     <section>
       <h2>Próximas horas agendadas</h2>
@@ -62,7 +72,27 @@
           d.citas.map((x) => `<tr><td class="n">${x.id}</td><td class="n">${esc(fmt(x.inicio))}</td><td>${esc(x.paciente)}</td><td>${esc(x.servicio)}</td><td>${esc(x.profesional)}</td><td>${esc(contacto(x.contacto))}</td></tr>`).join('') +
           '</tbody></table>'
         : '<p class="empty">Aún no hay horas agendadas.</p>'
+      const f = d.confirmaciones
+      document.getElementById('conf-title').textContent = 'Confirmaciones de mañana · ' + new Date(f.dia + 'T12:00').toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })
+      document.getElementById('conf-hint').textContent = f.hora === 'no'
+        ? 'El envío automático está desactivado. Puedes enviarlas a mano.'
+        : `Se envían solas cada día a las ${f.hora}. Si alguien no puede venir, su hora se libera y aparece aquí como cancelada.`
+      const estado = { confirmada: ['ok', 'Confirmó'], cancelada: ['no', 'Canceló · cupo libre'], enviada: ['wait', 'Sin respuesta'] }
+      const cf = document.getElementById('confirmaciones')
+      cf.innerHTML = f.citas.length
+        ? '<table><thead><tr><th>Hora</th><th>Paciente</th><th>Servicio</th><th>Profesional</th><th>Estado</th></tr></thead><tbody>' +
+          f.citas.map((x) => { const [cls, txt] = estado[x.confirmacion] || ['none', 'Por enviar']; return `<tr><td class="n">${esc(x.inicio.slice(11))}</td><td>${esc(x.paciente)}<br><small style="color:var(--muted)">${esc(contacto(x.contacto))}</small></td><td>${esc(x.servicio)}</td><td>${esc(x.profesional)}</td><td><span class="pill ${cls}">${txt}</span></td></tr>` }).join('') +
+          '</tbody></table>'
+        : '<p class="empty">No hay horas agendadas para mañana.</p>'
     }
+    document.getElementById('conf-send').addEventListener('click', async (e) => {
+      e.target.disabled = true
+      try {
+        const r = await (await fetch('api/panel/confirmaciones', { method: 'POST' })).json()
+        alert(`Enviadas: ${r.enviadas}. Ya enviadas antes: ${r.yaEnviadas}.` + (r.errores.length ? `
+Con error: ${r.errores.length} (revisa la consola del servidor).` : ''))
+      } finally { e.target.disabled = false; load() }
+    })
     load(); setInterval(load, 15000)
   </script>
 </body>
