@@ -10,6 +10,7 @@ const LINKS = [
   { label: 'Rubros', href: '#rubros' },
   { label: 'Demo', href: '#demo' },
   { label: 'Proceso', href: '#proceso' },
+  { label: 'Precios', href: '#precios' },
   { label: 'Contacto', href: '#contacto' },
 ]
 

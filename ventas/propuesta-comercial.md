@@ -50,6 +50,8 @@ Cada viernes te enviamos un avance corto: qué se hizo, qué viene y si necesita
 
 ## 4. Inversión
 
+<!-- Precios de partida de cada paquete y qué incluyen: ver precios.md. -->
+
 | Concepto | Valor |
 |---|---|
 | Implementación (pago único) | [XX] UF + IVA |
