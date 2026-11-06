@@ -20,8 +20,8 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 - [ ] 👤 Instalar WhatsApp Business en el número +56 9 7663 0940, con perfil, horario, catálogo de servicios y logo
 - [ ] 👤 Crear el Perfil de Empresa en Google
 - [ ] 👤 Crear la página de empresa en LinkedIn y actualizar tu perfil personal (título: "Fundador · Inteligencia Aplicada")
-- [ ] 👤 Enviarme tu foto profesional y una biografía corta
-- [ ] 🤖 Agregar a la web la sección "Quién está detrás" (falta tu foto y biografía). Política de privacidad y términos de uso: listos
+- [x] 👤 Enviarme tu foto profesional y una biografía corta (6 nov; biografía desde el CV)
+- [x] 🤖 Agregar a la web la sección "Quién está detrás" (6 nov). Política de privacidad y términos de uso: listos
 
 **Listo cuando:** la web está en el dominio `.cl`, con correo propio, tu cara visible y la política de privacidad publicada.
 
@@ -107,3 +107,4 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 | 2026-11-05 | Kit de ventas: propuesta tipo, contrato, NDA, anexo de datos y checklist de diagnóstico; términos de uso en la web | `ventas/`, contratos pendientes de revisión legal |
 | 2026-11-05 | Demo del asistente guiado publicado en la web (sección "Pruébalo ahora") | Corre en el navegador, sin costo; auditoría 100/100 |
 | 2026-11-05 | Precios "desde" de los 4 paquetes aprobados y publicados en la web | Revisados el mismo día: asistente 10 UF + 4 UF/mes, automatización 5 UF, web 7 UF (landing 4 UF), diagnóstico Ley 21.719 gratis |
+| 2026-11-06 | Sección "Quién está detrás" con foto publicada; 24 clínicas auditadas y mensajes de prospección | Prospectos en `ventas/prospectos/` (privado) |
