@@ -43,7 +43,7 @@ export default function Demo() {
   const show = (r: Reply) => {
     if (r.text) push({ kind: 'msg', from: 'bot', text: r.text, time: hhmm(), options: r.options })
     if (r.handoff) {
-      push({ kind: 'note', text: 'En el servicio real, aquí te responde una persona de recepción y el asistente deja de contestar.', reset: true })
+      push({ kind: 'note', text: 'En el servicio real, aquí te responde una persona de recepción y el agente deja de contestar.', reset: true })
     }
   }
 
@@ -99,10 +99,10 @@ export default function Demo() {
         <div className="grid items-start gap-10 px-5 sm:px-8 lg:grid-cols-[1fr_440px] lg:gap-16 lg:px-12 xl:grid-cols-[1fr_460px]">
           <div className="lg:pt-4">
             <h2 className="mb-5 text-[clamp(1.75rem,7vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 sm:text-[clamp(2.5rem,5vw,4.2rem)]">
-              Conversa con un asistente de WhatsApp
+              Conversa con un agente de WhatsApp
             </h2>
             <p className="mb-8 max-w-[560px] text-[15px] leading-relaxed text-gray-600 sm:text-[17px]">
-              Haz de cuenta que eres paciente de {clinica.nombre}, una clínica dental de ejemplo. Pide una hora, pregunta un precio o cancela: así atiende el asistente que instalamos en el WhatsApp de tu negocio.
+              Haz de cuenta que eres paciente de {clinica.nombre}, una clínica dental de ejemplo. Pide una hora, pregunta un precio o cancela: así atiende el agente que instalamos en el WhatsApp de tu negocio.
             </p>
             <ul className="mb-8 grid max-w-[560px] gap-5">
               {PUNTOS.map(({ icon: Icon, t, d }) => (
@@ -121,7 +121,7 @@ export default function Demo() {
             <p className="mt-6 flex max-w-[560px] gap-2 text-[13px] leading-relaxed text-gray-500">
               <Sparkles size={15} className="mt-0.5 flex-none text-[#2A44EE]" aria-hidden="true" />
               <span>
-                Este demo usa el modo guiado, con botones. La versión con inteligencia artificial entiende conversaciones libres y usa la misma agenda. Todo queda en tu navegador: no se guarda ni se envía nada.
+                Este demo usa el modo guiado, con botones y sin IA. El agente con inteligencia artificial entiende conversaciones libres y usa la misma agenda. Todo queda en tu navegador: no se guarda ni se envía nada.
               </span>
             </p>
           </div>
@@ -143,7 +143,7 @@ export default function Demo() {
               </button>
             </div>
 
-            <div ref={log} role="log" aria-live="polite" aria-label="Conversación con el asistente" className="flex flex-1 flex-col gap-1.5 overflow-y-auto overscroll-contain px-3 py-4">
+            <div ref={log} role="log" aria-live="polite" aria-label="Conversación con el agente" className="flex flex-1 flex-col gap-1.5 overflow-y-auto overscroll-contain px-3 py-4">
               <p className="mx-auto mb-2 max-w-[90%] rounded-lg bg-[#FFF3C4] px-3 py-1.5 text-center text-[12px] text-[#54430B]">
                 Clínica ficticia. No escribas datos reales.
               </p>

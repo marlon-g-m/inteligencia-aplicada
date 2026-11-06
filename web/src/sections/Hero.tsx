@@ -163,7 +163,7 @@ export default function Hero() {
       <div className="flex-1" />
 
       <div className="relative z-20 mx-auto w-full max-w-[1440px] px-5 pb-14 sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
-        <p className="mb-5 text-[13px] tracking-wide text-white/80 sm:mb-8 sm:text-[14px]">Software a medida · Apps · Web · IA · Automatización</p>
+        <p className="mb-5 text-[13px] tracking-wide text-white/80 sm:mb-8 sm:text-[14px]">Software a medida · Apps · Web · Agentes de IA · Automatización</p>
         <h1 className="text-[clamp(1.75rem,7vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-white sm:text-[clamp(2.5rem,5vw,4.2rem)]">
           Creamos el software que<br className="hidden sm:block" />
           <span className="sm:hidden"> </span>tu empresa necesita, y lo<br className="hidden sm:block" />

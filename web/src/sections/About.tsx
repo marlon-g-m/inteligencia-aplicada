@@ -32,7 +32,7 @@ function TechMarquee() {
   )
 }
 
-const TEXT = 'Desarrollamos software a medida, aplicaciones y páginas web, y les sumamos IA y automatización para que tu empresa venda más y trabaje menos. Sin botar lo que ya funciona.'
+const TEXT = 'Desarrollamos software a medida, aplicaciones y páginas web, y les sumamos agentes de IA y automatización para que tu empresa venda más y trabaje menos. Sin botar lo que ya funciona.'
 
 export default function About() {
   return (

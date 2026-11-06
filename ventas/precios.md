@@ -11,7 +11,11 @@
 
 ## Los 4 paquetes
 
-### 1. Asistente de WhatsApp con IA: **desde 10 UF + 4 UF al mes**
+## Posicionamiento: agentes de IA (decidido el 6 nov 2026)
+
+La oferta se presenta como **agentes de IA**, para lo que necesita criterio (entender, decidir, actuar), y **automatizaciones**, para lo que siempre se hace igual. No se vende una "app de agentes": el agente vive donde el cliente ya trabaja (WhatsApp, correo, planillas, su software de agenda). La automatización simple se mantiene como la entrada barata.
+
+### 1. Agente de IA para WhatsApp: **desde 10 UF + 4 UF al mes**
 
 Desglose de la implementación (≈ $413.000 + IVA):
 
@@ -27,6 +31,13 @@ Desglose de la implementación (≈ $413.000 + IVA):
 - **La mensualidad (4 UF ≈ $165.000)** cubre el servidor, la IA hasta 500 conversaciones al mes (costo estimado bajo 1,5 UF) y el soporte. El resto es margen. Hay que medir el costo real en el piloto.
 - **Se cotiza aparte:** la integración con un software de agenda (Dentalink, Medilink, Reservo, etc.), más de 3 profesionales o los recordatorios automáticos. Lo que cobra Meta por los mensajes que inicia la clínica se traspasa al costo.
 - **Mercado:** $500.000 a $3 millones de implementación y $120.000 a $450.000 al mes. Quedamos en la parte baja.
+
+### 1b. Agente de confirmaciones: **desde 6 UF + 2 UF al mes** (con el agente de WhatsApp: desde 3 UF + 1 UF al mes)
+
+- **Qué hace:** confirma por WhatsApp las horas del día siguiente, reagenda a quien no puede venir y avisa a recepción los cupos que se liberan. Baja las inasistencias.
+- **Costos:** los mensajes que inicia la clínica requieren plantillas aprobadas por Meta, que los cobra por mensaje. Se traspasan al costo, sin margen. El uso de IA es bajo (respuestas cortas).
+- **Margen:** la implementación (≈ $248.000) deja menos que el agente de WhatsApp, pero se vende sobre todo como complemento, sobre una base que ya existe.
+- ⚠️ **Falta construirlo** en `demo-clinica/`: plantillas de Meta, envío programado y manejo de las respuestas. Ver `docs/PENDIENTES.md`.
 
 ### 2. Automatización de procesos: **desde 5 UF por flujo + 1 UF al mes**
 

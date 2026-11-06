@@ -27,14 +27,14 @@ export function ChatVisual({ dark = false, className = '', bodyClass = '' }: { d
     <div
       ref={ref}
       role="img"
-      aria-label="Ejemplo ilustrativo: un paciente pide hora por WhatsApp y el asistente con IA lo agenda."
+      aria-label="Ejemplo ilustrativo: un paciente pide hora por WhatsApp y el agente de IA lo agenda."
       className={`flex h-full w-full flex-col ${dark ? 'bg-[#0B1F3A]' : 'bg-[#EEF1F5]'} ${className}`}
     >
       <div className={`flex items-center gap-3 border-b px-4 py-3 ${dark ? 'border-white/10' : 'border-black/5 bg-white'}`}>
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0B1F3A] text-[11px] font-semibold text-white ring-1 ring-white/20">CS</span>
         <div className="leading-tight">
           <p className={`text-[13px] font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>Clínica Dental Sur</p>
-          <p className={`text-[11px] ${dark ? 'text-white/60' : 'text-gray-500'}`}>Asistente con IA · en línea</p>
+          <p className={`text-[11px] ${dark ? 'text-white/60' : 'text-gray-500'}`}>Agente de IA · en línea</p>
         </div>
       </div>
       <div className={`flex flex-1 flex-col justify-end gap-2 overflow-hidden p-4 ${bodyClass}`}>
@@ -57,11 +57,11 @@ export function ChatVisual({ dark = false, className = '', bodyClass = '' }: { d
   )
 }
 
-/** Diagrama de un flujo automatizado: WhatsApp → Asistente IA → Agenda/CRM → Reporte. */
+/** Diagrama de un flujo automatizado: WhatsApp → Agente de IA → Agenda/CRM → Reporte. */
 export function FlowVisual({ className = '' }: { className?: string }) {
   const nodes = [
     { x: 70, y: 150, label: 'WhatsApp', sub: 'Mensaje entrante' },
-    { x: 250, y: 150, label: 'Asistente IA', sub: 'Entiende y responde', accent: true },
+    { x: 250, y: 150, label: 'Agente de IA', sub: 'Entiende y responde', accent: true },
     { x: 430, y: 80, label: 'Agenda', sub: 'Hora reservada' },
     { x: 430, y: 220, label: 'CRM', sub: 'Cliente registrado' },
     { x: 610, y: 150, label: 'Reporte', sub: 'Lunes 08:00' },
@@ -74,7 +74,7 @@ export function FlowVisual({ className = '' }: { className?: string }) {
     <svg
       viewBox="0 0 680 300"
       role="img"
-      aria-label="Diagrama: un mensaje de WhatsApp pasa por el asistente con IA, se guarda en la agenda y el CRM, y termina en un reporte automático."
+      aria-label="Diagrama: un mensaje de WhatsApp pasa por el agente de IA, se guarda en la agenda y el CRM, y termina en un reporte automático."
       className={`h-full w-full bg-[#0B1F3A] ${className}`}
       preserveAspectRatio="xMidYMid meet"
     >

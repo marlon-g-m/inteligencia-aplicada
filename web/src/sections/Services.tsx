@@ -30,15 +30,15 @@ const SERVICES: { icon: LucideIcon; title: string; text: string; visual: ReactNo
   },
   {
     icon: Bot,
-    title: 'Asistentes con IA',
-    text: 'Chatbots para WhatsApp y tu web que responden, agendan y cotizan las 24 horas, y derivan a tu equipo cuando hace falta.',
+    title: 'Agentes de IA',
+    text: 'Agentes que atienden tu WhatsApp, agendan, confirman horas y cobran por su cuenta, conectados a tus sistemas. Lo delicado siempre lo revisa una persona de tu equipo.',
     visual: <ChatVisual dark />,
     bg: 'bg-[#0B1F3A]',
   },
   {
     icon: Workflow,
     title: 'Automatización de procesos',
-    text: 'Cotizaciones, cobranza, reportes y facturación funcionando solos, conectando las herramientas que ya usas.',
+    text: 'Para lo que siempre se hace igual: cotizaciones, reportes y facturación funcionando solos, conectando las herramientas que ya usas.',
     visual: <FlowVisual />,
     bg: 'bg-[#0B1F3A]',
   },
@@ -67,7 +67,7 @@ export default function Services() {
             Nuestros servicios
           </h2>
           <p className="mb-10 max-w-[640px] px-5 text-[15px] leading-relaxed text-gray-600 sm:mb-14 sm:px-8 sm:text-[17px] lg:mb-16 lg:px-12">
-            Diseñamos y desarrollamos el software que tu empresa necesita, desde una página web hasta un sistema completo, y lo potenciamos con IA y automatización.
+            Diseñamos y desarrollamos el software que tu empresa necesita, desde una página web hasta un sistema completo, y lo potenciamos con agentes de IA y automatización.
           </p>
         </Reveal>
 

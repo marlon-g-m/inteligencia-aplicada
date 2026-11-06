@@ -1,4 +1,4 @@
-import { ArrowRight, Bot, Check, Globe, ShieldCheck, Workflow } from 'lucide-react'
+import { ArrowRight, Bot, CalendarCheck, Check, Globe, ShieldCheck, Workflow } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { EASE, Reveal, SectionBadge, WHATSAPP } from '../components/ui'
 
@@ -22,13 +22,22 @@ interface Plan {
 const PLANS: Plan[] = [
   {
     icon: Bot,
-    name: 'Asistente de WhatsApp con IA',
+    name: 'Agente de IA para WhatsApp',
     uf: 10,
     monthly: 4,
     monthlyNote: 'Servidor, IA (hasta 500 conversaciones al mes) y soporte',
-    items: ['Conectado al WhatsApp oficial de tu negocio', 'Agenda, confirma y cancela horas', 'Panel para tu equipo y derivación a una persona', 'Capacitación y 30 días de ajustes'],
-    extra: 'Integración con tu software de agenda, más de 3 profesionales o recordatorios automáticos: se cotiza aparte.',
+    items: ['Atiende el WhatsApp oficial de tu negocio, a cualquier hora', 'Agenda, confirma y cancela horas en tu agenda', 'Panel para tu equipo y derivación a una persona', 'Capacitación y 30 días de ajustes'],
+    extra: 'Integración con tu software de agenda o más de 3 profesionales: se cotiza aparte.',
     featured: true,
+  },
+  {
+    icon: CalendarCheck,
+    name: 'Agente de confirmaciones',
+    uf: 6,
+    monthly: 2,
+    monthlyNote: 'Servidor, IA y soporte',
+    items: ['Confirma por WhatsApp las horas del día siguiente', 'Reagenda solo a quien no puede venir', 'Avisa a recepción los cupos que se liberan', 'Si ya tienes el agente de WhatsApp: desde 3 UF + 1 UF al mes'],
+    extra: 'Baja las inasistencias, que son horas perdidas. Meta cobra cada mensaje que envía tu negocio; ese costo se traspasa tal cual, sin margen.',
   },
   {
     icon: Workflow,
@@ -37,8 +46,8 @@ const PLANS: Plan[] = [
     unit: 'por flujo',
     monthly: 1,
     monthlyNote: 'Servidor, respaldos y monitoreo (hasta 5 flujos)',
-    items: ['Un flujo simple: formulario → planilla → aviso por correo o WhatsApp', 'Conecta las herramientas que ya usas', 'Flujos con IA (leer documentos, clasificar, responder) desde 10 UF'],
-    extra: 'El precio depende de la complejidad: cuántos pasos tiene el flujo y cuántas herramientas conecta. En el diagnóstico gratis te decimos cuál conviene automatizar primero y cuánto cuesta.',
+    items: ['Un flujo simple: formulario → planilla → aviso por correo o WhatsApp', 'Conecta las herramientas que ya usas', 'Sin IA: siempre hace lo mismo, sin sorpresas', 'Flujos con IA (leer documentos, clasificar, responder) desde 10 UF'],
+    extra: 'El precio depende de la complejidad: cuántos pasos tiene el flujo y cuántas herramientas conecta. En el diagnóstico gratis te decimos cuál conviene automatizar primero.',
   },
   {
     icon: Globe,
@@ -49,18 +58,12 @@ const PLANS: Plan[] = [
     items: ['Sitio a medida de hasta 5 secciones', 'Rápido, pensado para celular y con botón de WhatsApp', 'SEO básico y política de privacidad', 'Landing de una página con formulario de contacto: desde 4 UF'],
     extra: 'El precio depende de lo que tenga tu página: cuántas secciones, si lleva blog, reservas, pagos en línea o tienda (tienda online desde 20 UF).',
   },
-  {
-    icon: ShieldCheck,
-    name: 'Diagnóstico Ley 21.719',
-    uf: 0,
-    items: ['Qué datos personales manejas y dónde están', 'Revisión de tu web, formularios y proveedores', 'Lista de lo que te falta para cumplir, con prioridades'],
-    extra: 'La ley entra en plena vigencia el 1 de diciembre de 2026. Es un diagnóstico técnico; la adecuación se cotiza según lo que encontremos, y la parte legal la ve un abogado aliado.',
-  },
 ]
 
 const fmtUf = (n: number) => n.toLocaleString('es-CL', { maximumFractionDigits: 1 })
 /** Pesos aproximados, redondeados a miles. */
 const clp = (uf: number) => `$${(Math.round((uf * UF_REF) / 1000) * 1000).toLocaleString('es-CL')}`
+const DIAG = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola, quiero agendar el diagnóstico gratis de la Ley 21.719.')}`
 const quote = (p: Plan) =>
   `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.uf ? `Hola, quiero cotizar el paquete "${p.name}".` : `Hola, quiero agendar el ${p.name.toLowerCase()} gratis.`)}`
 
@@ -74,7 +77,7 @@ export default function Pricing() {
             Precios claros desde el principio
           </h2>
           <p className="mb-10 max-w-[680px] px-5 text-[15px] leading-relaxed text-gray-600 sm:mb-14 sm:px-8 sm:text-[17px] lg:mb-16 lg:px-12">
-            Estos son los valores de partida. Después del diagnóstico te enviamos una propuesta con el precio cerrado para tu caso, y ese es el que pagas.
+            Agentes de IA para lo que necesita criterio y automatizaciones para lo que siempre se hace igual. Estos son los valores de partida; después del diagnóstico te enviamos una propuesta con el precio cerrado para tu caso, y ese es el que pagas.
           </p>
         </Reveal>
 
@@ -145,7 +148,18 @@ export default function Pricing() {
           ))}
         </div>
 
-        <div className="mt-8 grid gap-4 px-5 sm:px-8 lg:mt-10 lg:grid-cols-2 lg:px-12">
+        <div className="mt-8 grid gap-4 px-5 sm:px-8 lg:mt-10 lg:grid-cols-3 lg:px-12">
+          <div className="rounded-2xl bg-[#0B1F3A] p-5 text-white sm:p-6">
+            <p className="flex items-center gap-2 text-[15px] font-semibold">
+              <ShieldCheck size={17} className="text-[#7AA2FF]" aria-hidden="true" /> Diagnóstico Ley 21.719 gratis
+            </p>
+            <p className="mt-1 text-[14px] leading-relaxed text-white/70">
+              Revisamos qué datos personales manejas, tu web y tus formularios, y te decimos qué te falta para cumplir. La ley entra en plena vigencia el 1 de diciembre de 2026.
+            </p>
+            <a href={DIAG} rel="noopener" className="mt-3 inline-flex items-center gap-1.5 text-[14px] font-medium text-[#7AA2FF] hover:underline">
+              Agendar gratis <ArrowRight size={14} aria-hidden="true" />
+            </a>
+          </div>
           <div className="rounded-2xl border border-[#2A44EE]/20 bg-[#EEF1FF] p-5 sm:p-6">
             <p className="text-[15px] font-semibold text-gray-900">Buscamos 2 clientes piloto</p>
             <p className="mt-1 text-[14px] leading-relaxed text-gray-600">
