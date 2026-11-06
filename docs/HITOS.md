@@ -106,4 +106,4 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 | 2026-11-04 | Asistente de WhatsApp para clínicas (código, simulador, panel y 11 pruebas) | `demo-clinica/`, pendiente la conexión real |
 | 2026-11-05 | Kit de ventas: propuesta tipo, contrato, NDA, anexo de datos y checklist de diagnóstico; términos de uso en la web | `ventas/`, contratos pendientes de revisión legal |
 | 2026-11-05 | Demo del asistente guiado publicado en la web (sección "Pruébalo ahora") | Corre en el navegador, sin costo; auditoría 100/100 |
-| 2026-11-05 | Precios "desde" de los 4 paquetes aprobados y publicados en la web | Asistente 18 UF + 4 UF/mes, automatización 8 UF, web 12 UF, diagnóstico Ley 21.719 6 UF |
+| 2026-11-05 | Precios "desde" de los 4 paquetes aprobados y publicados en la web | Revisados el mismo día: asistente 10 UF + 4 UF/mes, automatización 5 UF, web 7 UF (landing 4 UF), diagnóstico Ley 21.719 gratis |

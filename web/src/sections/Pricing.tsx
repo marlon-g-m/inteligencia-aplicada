@@ -23,9 +23,9 @@ const PLANS: Plan[] = [
   {
     icon: Bot,
     name: 'Asistente de WhatsApp con IA',
-    uf: 18,
+    uf: 10,
     monthly: 4,
-    monthlyNote: 'Incluye hasta 500 conversaciones al mes',
+    monthlyNote: 'Servidor, IA (hasta 500 conversaciones al mes) y soporte',
     items: ['Conectado al WhatsApp oficial de tu negocio', 'Agenda, confirma y cancela horas', 'Panel para tu equipo y derivación a una persona', 'Capacitación y 30 días de ajustes'],
     extra: 'Integración con tu software de agenda, más de 3 profesionales o recordatorios automáticos: se cotiza aparte.',
     featured: true,
@@ -33,37 +33,36 @@ const PLANS: Plan[] = [
   {
     icon: Workflow,
     name: 'Automatización de procesos',
-    uf: 8,
+    uf: 5,
     unit: 'por flujo',
-    monthly: 1.5,
-    monthlyNote: 'Hasta 5 flujos',
-    items: ['Por ejemplo: formulario → planilla → aviso por correo o WhatsApp', 'Conecta las herramientas que ya usas', 'Monitoreo de fallas y respaldos', 'Flujos con IA (leer documentos, clasificar, responder) desde 15 UF'],
-    extra: 'En el diagnóstico gratis detectamos qué tareas conviene automatizar primero.',
+    monthly: 1,
+    monthlyNote: 'Servidor, respaldos y monitoreo (hasta 5 flujos)',
+    items: ['Un flujo simple: formulario → planilla → aviso por correo o WhatsApp', 'Conecta las herramientas que ya usas', 'Flujos con IA (leer documentos, clasificar, responder) desde 10 UF'],
+    extra: 'El precio depende de la complejidad: cuántos pasos tiene el flujo y cuántas herramientas conecta. En el diagnóstico gratis te decimos cuál conviene automatizar primero y cuánto cuesta.',
   },
   {
     icon: Globe,
     name: 'Página web',
-    uf: 12,
+    uf: 7,
     monthly: 1,
     monthlyNote: 'Hosting, dominio y 1 hora de cambios al mes',
-    items: ['Sitio a medida de hasta 5 secciones', 'Rápido, pensado para celular y con botón de WhatsApp', 'SEO básico y política de privacidad', 'Informe de nuestra auditoría al entregar'],
-    extra: 'Landing de una página desde 7 UF. Tienda online desde 25 UF.',
+    items: ['Sitio a medida de hasta 5 secciones', 'Rápido, pensado para celular y con botón de WhatsApp', 'SEO básico y política de privacidad', 'Landing de una página con formulario de contacto: desde 4 UF'],
+    extra: 'El precio depende de lo que tenga tu página: cuántas secciones, si lleva blog, reservas, pagos en línea o tienda (tienda online desde 20 UF).',
   },
   {
     icon: ShieldCheck,
     name: 'Diagnóstico Ley 21.719',
-    uf: 6,
-    unit: 'precio fijo',
-    items: ['Qué datos personales manejas y dónde están', 'Revisión de tu web, accesos, respaldos y proveedores', 'Informe de brechas con prioridades', 'Se descuenta si luego haces la adecuación con nosotros'],
-    extra: 'La ley entra en plena vigencia el 1 de diciembre de 2026. Es un diagnóstico técnico; la parte legal la ve un abogado aliado.',
+    uf: 0,
+    items: ['Qué datos personales manejas y dónde están', 'Revisión de tu web, formularios y proveedores', 'Lista de lo que te falta para cumplir, con prioridades'],
+    extra: 'La ley entra en plena vigencia el 1 de diciembre de 2026. Es un diagnóstico técnico; la adecuación se cotiza según lo que encontremos, y la parte legal la ve un abogado aliado.',
   },
 ]
 
 const fmtUf = (n: number) => n.toLocaleString('es-CL', { maximumFractionDigits: 1 })
 /** Pesos aproximados, redondeados a miles. */
 const clp = (uf: number) => `$${(Math.round((uf * UF_REF) / 1000) * 1000).toLocaleString('es-CL')}`
-const quote = (name: string) =>
-  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hola, quiero cotizar el paquete "${name}".`)}`
+const quote = (p: Plan) =>
+  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.uf ? `Hola, quiero cotizar el paquete "${p.name}".` : `Hola, quiero agendar el ${p.name.toLowerCase()} gratis.`)}`
 
 export default function Pricing() {
   return (
@@ -99,12 +98,12 @@ export default function Pricing() {
                 </div>
                 <h3 className="mt-5 text-[16px] font-semibold">{p.name}</h3>
 
-                <p className={`mt-4 text-[13px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>{p.unit === 'precio fijo' ? 'Precio' : 'Desde'}</p>
+                <p className={`mt-4 text-[13px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>{p.uf ? 'Desde' : 'Valor'}</p>
                 <p className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="text-[40px] font-medium leading-none tracking-[-0.03em]">{fmtUf(p.uf)} UF</span>
-                  <span className={`text-[13px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>{p.unit ?? 'implementación'}</span>
+                  <span className="text-[40px] font-medium leading-none tracking-[-0.03em]">{p.uf ? `${fmtUf(p.uf)} UF` : 'Gratis'}</span>
+                  <span className={`text-[13px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>{p.uf ? (p.unit ?? 'implementación') : ''}</span>
                 </p>
-                <p className={`mt-1 text-[13px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>≈ {clp(p.uf)} + IVA</p>
+                <p className={`mt-1 text-[13px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>{p.uf ? `≈ ${clp(p.uf)} + IVA` : 'Sin compromiso'}</p>
 
                 {p.monthly ? (
                   <div className={`mt-4 rounded-xl px-4 py-3 ${p.featured ? 'bg-white/10' : 'bg-white'}`}>
@@ -114,7 +113,7 @@ export default function Pricing() {
                 ) : (
                   <div className={`mt-4 rounded-xl px-4 py-3 ${p.featured ? 'bg-white/10' : 'bg-white'}`}>
                     <p className="text-[15px] font-medium">Sin mensualidad</p>
-                    <p className={`text-[12px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>Un solo pago</p>
+                    <p className={`text-[12px] ${p.featured ? 'text-white/60' : 'text-gray-500'}`}>Va incluido en el diagnóstico de 30 minutos</p>
                   </div>
                 )}
 
@@ -130,13 +129,13 @@ export default function Pricing() {
 
                 <div className="min-h-6 flex-1" />
                 <a
-                  href={quote(p.name)}
+                  href={quote(p)}
                   rel="noopener"
                   className={`group inline-flex items-center justify-between gap-3 rounded-full py-2 pl-5 pr-2 text-[14px] font-medium transition-colors duration-300 ${
                     p.featured ? 'bg-[#2A44EE] text-white hover:bg-[#1F35C9]' : 'bg-gray-900 text-white hover:bg-gray-700'
                   }`}
                 >
-                  Cotizar este paquete
+                  {p.uf ? 'Cotizar este paquete' : 'Agendar gratis'}
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
                     <ArrowRight size={15} className={`text-gray-900 transition-transform duration-500 ${EASE} group-hover:-rotate-45`} aria-hidden="true" />
                   </span>
