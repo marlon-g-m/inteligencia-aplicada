@@ -53,7 +53,7 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 **Meta:** 2 clientes piloto funcionando y primeras métricas reales.
 
 - [ ] 👤 Mensaje a 30 contactos de tu red personal pidiendo presentaciones
-- [ ] 🤝 Lista de 100 empresas objetivo con señales de necesidad (reseñas, web, horarios) cargada en el CRM
+- [ ] 🤝 Lista de 100 empresas objetivo con señales de necesidad (reseñas, web, horarios) cargada en el CRM. Avance: 24 clínicas dentales auditadas y priorizadas (6 nov), en `ventas/prospectos/` (privado, fuera de Git)
 - [ ] 👤 Enviar de 10 a 15 auditorías personalizadas por día hábil (Loom + informe)
 - [ ] 🤖 Calendario de contenido para LinkedIn: 8 publicaciones (demos, antes y después, Ley 21.719)
 - [ ] 👤 Publicar 2 o 3 veces por semana
