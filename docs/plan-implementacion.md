@@ -157,7 +157,7 @@ Mide todo en el CRM desde el primer día: así sabrás qué canal funciona y dó
 
 ### 2.6 Oferta de lanzamiento
 
-- **Programa piloto:** 2 clientes con un 40–50 % de descuento a cambio de un caso de éxito publicado (con permiso), una reseña en Google y una reunión de feedback.
+- **Programa piloto:** 2 clientes con un 20 % de descuento a cambio de un caso de éxito publicado (con permiso), una reseña en Google y una reunión de feedback.
 - **Paquetes con precio "desde" en UF** (definir después de los pilotos, cuando sepas cuántas horas toma cada uno):
   - Asistente WhatsApp: instalación + mensualidad.
   - Automatización: por flujo + soporte.

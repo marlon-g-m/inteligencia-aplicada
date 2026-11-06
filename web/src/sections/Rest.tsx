@@ -163,7 +163,7 @@ export function Sectors() {
 
 const FAQS = [
   { q: '¿Tengo que cambiar el sistema que ya uso?', a: 'No necesariamente. Primero vemos qué funciona bien y lo conectamos o lo mejoramos. Solo proponemos reemplazar algo cuando ya no da para más, y en ese caso migramos por etapas.' },
-  { q: '¿Cuánto cuesta?', a: 'Los paquetes parten en 6 UF (diagnóstico de Ley 21.719), 8 UF (automatización), 12 UF (página web) y 18 UF (asistente de WhatsApp), más IVA. Después del diagnóstico recibes una propuesta con el precio cerrado para tu caso antes de comprometerte.' },
+  { q: '¿Cuánto cuesta?', a: 'Una landing con formulario de contacto parte en 4 UF, una automatización simple en 5 UF, un sitio web en 7 UF y un asistente de WhatsApp en 10 UF, más IVA. El diagnóstico de Ley 21.719 es gratis. El valor final depende de lo que necesites: después del diagnóstico recibes una propuesta con el precio cerrado.' },
   { q: '¿Cuánto se demora un proyecto?', a: 'Un asistente de WhatsApp o una automatización suelen estar funcionando en 2 a 4 semanas. Una modernización o migración completa se planifica por etapas, con entregas cada semana.' },
   { q: '¿Qué pasa con los datos de mis clientes?', a: 'Se quedan protegidos y bajo tu control. Usamos proveedores con estándares de seguridad reconocidos y diseñamos cada solución pensando en la Ley 21.719.' },
   { q: '¿Y si después necesito cambios?', a: 'Ofrecemos planes de soporte mensual con mantención, ajustes y mejoras. No te dejamos solo con el sistema.' },
