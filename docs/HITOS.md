@@ -39,8 +39,8 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 - [ ] 👤 Revisión de los contratos con un abogado (idealmente un aliado para la parte legal de la Ley 21.719)
 - [x] 🤖 Checklist de diagnóstico de 30 minutos (preguntas, qué observar, plantilla de resumen): `ventas/checklist-diagnostico.md`
 - [x] 🤖 Herramienta de auditoría para prospectos: analiza una web (velocidad, celular, HTTPS, botón de WhatsApp) y genera un informe de 1 página: `auditoria/`
-- [ ] 👤 Definir los precios "desde" de los 4 paquetes
-- [ ] 🤖 Publicar los precios "desde" y el demo en la web. Demo publicado el 5 nov (sección "Pruébalo ahora"); faltan los precios
+- [x] 👤 Definir los precios "desde" de los 4 paquetes: `ventas/precios.md` (5 nov)
+- [x] 🤖 Publicar los precios "desde" y el demo en la web: secciones "Pruébalo ahora" y "Precios" (5 nov)
 - [ ] 👤 Configurar el CRM (HubSpot gratis o Notion) con las etapas del embudo
 - [ ] 👤 Configurar el agendador de diagnósticos (Cal.com o Google Calendar) y enlazarlo desde la web
 
@@ -106,3 +106,4 @@ Marca cada casilla al cumplirla. Al cierre de cada fase, revisamos las métricas
 | 2026-11-04 | Asistente de WhatsApp para clínicas (código, simulador, panel y 11 pruebas) | `demo-clinica/`, pendiente la conexión real |
 | 2026-11-05 | Kit de ventas: propuesta tipo, contrato, NDA, anexo de datos y checklist de diagnóstico; términos de uso en la web | `ventas/`, contratos pendientes de revisión legal |
 | 2026-11-05 | Demo del asistente guiado publicado en la web (sección "Pruébalo ahora") | Corre en el navegador, sin costo; auditoría 100/100 |
+| 2026-11-05 | Precios "desde" de los 4 paquetes aprobados y publicados en la web | Asistente 18 UF + 4 UF/mes, automatización 8 UF, web 12 UF, diagnóstico Ley 21.719 6 UF |

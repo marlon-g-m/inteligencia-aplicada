@@ -1,6 +1,6 @@
-# Precios "desde": propuesta para decidir
+# Precios "desde"
 
-> **Borrador para que Marlon decida.** Nada de esto está publicado. Los precios son sin IVA y en UF. Como referencia, la UF está en unos **$41.270** (noviembre de 2026, [SII](https://www.sii.cl/valores_y_fechas/uf/uf2026.htm)).
+> **Aprobado por Marlon el 5 de noviembre de 2026 y publicado en la web** (sección "Precios", `web/src/sections/Pricing.tsx`). Si cambias un valor aquí, cámbialo también allá. Los precios son sin IVA y en UF. Como referencia, la UF está en unos **$41.270** (noviembre de 2026, [SII](https://www.sii.cl/valores_y_fechas/uf/uf2026.htm)).
 
 ## Criterio
 
