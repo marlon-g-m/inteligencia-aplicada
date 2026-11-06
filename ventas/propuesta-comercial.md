@@ -61,7 +61,7 @@ Cada viernes te enviamos un avance corto: qué se hizo, qué viene y si necesita
 - **Forma de pago de la implementación:** 50 % al aceptar la propuesta y 50 % en la puesta en marcha.
 - La mensualidad parte el mes siguiente a la puesta en marcha. Sin permanencia mínima: se puede terminar avisando con 30 días.
 - Se factura al valor de la UF del día de emisión de la factura.
-- [Si es piloto: "Precio piloto con 20 % de descuento, a cambio de un caso de éxito publicado con tu permiso, una reseña en Google y una reunión de feedback al mes de uso."]
+- [Si es piloto: "Precio piloto con 40 % de descuento, a cambio de un caso de éxito publicado con tu permiso, una reseña en Google y una reunión de feedback al mes de uso."]
 
 ## 5. Nuestra garantía
 
