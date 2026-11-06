@@ -37,7 +37,7 @@ export default function Process() {
   return (
     <section id="proceso" className="overflow-hidden bg-[#F5F5F5] pb-16 pt-16 sm:pb-20 sm:pt-20 lg:pb-28 lg:pt-28">
       <div className="mx-auto max-w-[1440px]">
-        <SectionBadge n={4} label="Cómo trabajamos" border="border-gray-300" />
+        <SectionBadge n={5} label="Cómo trabajamos" border="border-gray-300" />
         <Reveal>
           <h2 className="mb-4 px-5 text-[clamp(1.75rem,7vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 sm:px-8 sm:text-[clamp(2.5rem,5vw,4.2rem)] lg:px-12">
             Cuatro pasos, sin sorpresas

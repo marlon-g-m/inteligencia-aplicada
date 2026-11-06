@@ -8,6 +8,7 @@ const HeroShaderLayers = lazy(() => import('./HeroShaderLayers'))
 const LINKS = [
   { label: 'Servicios', href: '#servicios' },
   { label: 'Rubros', href: '#rubros' },
+  { label: 'Demo', href: '#demo' },
   { label: 'Proceso', href: '#proceso' },
   { label: 'Contacto', href: '#contacto' },
 ]
