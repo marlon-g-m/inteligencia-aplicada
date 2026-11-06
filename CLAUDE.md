@@ -15,7 +15,11 @@ Repositorio de la agencia **Inteligencia Aplicada**, una consultora tecnológica
 | `demo-clinica/` | Demo de asistente de WhatsApp para una clínica (Node 24, `node:sqlite`). Modo guiado gratis o modo IA con `ANTHROPIC_API_KEY`. |
 | `auditoria/` | Herramienta de auditoría web para prospectos: `node src/auditar.ts <url>`. |
 | `ventas/` | Kit de ventas: propuesta tipo, contrato, NDA, anexo de datos (Ley 21.719) y checklist de diagnóstico. Los legales son borradores para abogado. |
-| `docs/` | Plan de implementación, hitos (`HITOS.md`) y brief F.R.A.M.E. |
+| `docs/` | Plan de implementación, hitos (`HITOS.md`), pendientes (`PENDIENTES.md`) y brief F.R.A.M.E. |
+
+## Al empezar una sesión
+
+Lee `docs/PENDIENTES.md`: tiene el estado actual, lo que falta y cómo desplegar. Actualízalo cuando cierres o agregues un pendiente.
 
 ## Reglas
 
