@@ -123,7 +123,13 @@ export function analyze(p: PageData, fecha = new Date().toISOString().slice(0, 1
     f.push({
       id: 'velocidad', titulo: 'Velocidad de respuesta', peso: 15,
       nivel: slow ? 'falta' : p.ms > 1200 || heavy ? 'mejorable' : 'ok',
-      detalle: `El servidor entregó la página en ${(p.ms / 1000).toFixed(1)} s (${kb} KB de HTML).`,
+      // El texto explica el motivo real: un servidor rápido con una página muy pesada también es un problema
+      detalle:
+        slow || p.ms > 1200
+          ? `El servidor tardó ${(p.ms / 1000).toFixed(1)} s en responder, antes de cargar imágenes. Lo recomendable es menos de 1 s.`
+          : heavy
+            ? `El servidor responde rápido, pero la página pesa ${kb} KB solo en código, varias veces lo recomendable. En un celular con mala señal tarda en abrir.`
+            : `El servidor entregó la página en ${(p.ms / 1000).toFixed(1)} s (${kb} KB de HTML).`,
       ...(slow || p.ms > 1200 || heavy ? { propuesta: 'Mejorar el hosting y la carga para que la web abra rápido.', servicio: 'web' as const } : {}),
     })
   }
