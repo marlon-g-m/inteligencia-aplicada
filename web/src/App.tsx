@@ -4,6 +4,7 @@ import Services from './sections/Services'
 import Process from './sections/Process'
 import Demo from './sections/Demo'
 import Pricing from './sections/Pricing'
+import Founder from './sections/Founder'
 import { Contact, Faq, Footer, Sectors } from './sections/Rest'
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Sectors />
         <Demo />
         <Process />
+        <Founder />
         <Pricing />
         <Faq />
         <Contact />
