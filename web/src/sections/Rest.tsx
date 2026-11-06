@@ -174,7 +174,7 @@ export function Faq() {
     <section id="faq" className="bg-[#F5F5F5] pb-16 pt-16 sm:pb-20 sm:pt-20 lg:pb-28 lg:pt-28">
       <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[40%_1fr]">
         <div>
-          <SectionBadge n={7} label="Preguntas frecuentes" />
+          <SectionBadge n={8} label="Preguntas frecuentes" />
           <h2 className="px-5 text-[clamp(1.5rem,4vw,3.2rem)] font-medium leading-[1.12] tracking-[-0.02em] text-gray-900 sm:px-8 lg:px-12">
             Lo que más<br className="hidden sm:block" /><span className="sm:hidden"> </span>nos preguntan
           </h2>
@@ -220,7 +220,7 @@ export function Contact() {
     <section id="contacto" className="bg-[#0B1F3A] pb-16 pt-16 text-white sm:pb-20 sm:pt-20 lg:pb-28 lg:pt-28">
       <div className="mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-2">
         <div>
-          <SectionBadge n={8} label="Contacto" dark />
+          <SectionBadge n={9} label="Contacto" dark />
           <h2 className="px-5 text-[clamp(1.75rem,7vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] sm:px-8 sm:text-[clamp(2.5rem,5vw,4.2rem)] lg:px-12">
             Conversemos<br className="hidden sm:block" /><span className="sm:hidden"> </span>30 minutos
           </h2>
