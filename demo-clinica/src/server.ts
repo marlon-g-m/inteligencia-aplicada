@@ -6,9 +6,10 @@ import { dirname, join } from 'node:path'
 import { createAgenda } from './agenda.ts'
 import { anthropicMessagesApi, createAssistant, describeApiError, type Reply } from './assistant.ts'
 import { createScripted } from './scripted.ts'
+import { createConfirmaciones, isSendTime } from './confirmaciones.ts'
 import { loadClinic } from './clinic.ts'
 import { openDb } from './db.ts'
-import { nowLocal } from './time.ts'
+import { addDays, nowLocal } from './time.ts'
 import { createWhatsApp, parseWebhook, validSignature, verifyChallenge } from './whatsapp.ts'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -47,6 +48,46 @@ const assistant: Engine =
   MODE === 'ia'
     ? createAssistant({ clinic, agenda, db, api: anthropicMessagesApi(), model: env.CLAUDE_MODEL ?? 'claude-opus-5-5', onHandoff })
     : createScripted({ clinic, agenda, db, onHandoff })
+
+/* ---------- agente de confirmaciones ---------- */
+
+// Hora diaria (de la clínica) en que se envían las confirmaciones de mañana. "no" lo desactiva.
+const CONF_HORA = env.CONFIRMACIONES_HORA ?? '10:00'
+const CONF_PLANTILLA = env.WHATSAPP_PLANTILLA_CONFIRMACION ?? 'confirmacion_hora'
+const CONF_IDIOMA = env.WHATSAPP_PLANTILLA_IDIOMA ?? 'es'
+
+const confirmaciones = createConfirmaciones({
+  clinic,
+  agenda,
+  db,
+  send: async (r) => {
+    // Las citas del simulador web no tienen WhatsApp: el simulador muestra el recordatorio él mismo
+    if (!r.to.startsWith('wa:')) return
+    if (!wa) throw new Error('WhatsApp no está configurado')
+    await wa.sendTemplate(r.to.slice(3), CONF_PLANTILLA, CONF_IDIOMA, r.params, r.options.map((x) => x.id))
+  },
+  onSlotFreed: async (_cita, texto) => {
+    console.log(`[cupo liberado] ${texto}`)
+    if (wa && env.STAFF_WHATSAPP) await wa.sendText(env.STAFF_WHATSAPP, `🗓️ ${texto}`).catch((e) => console.error('[aviso recepción]', e.message))
+  },
+  continuar: (contacto, texto) => assistant.reply(contacto, texto),
+})
+
+/** Primero se revisa si el mensaje responde a una confirmación; si no, lo atiende el agente de siempre. */
+async function responder(contacto: string, texto: string, opcion?: string): Promise<Reply> {
+  return (await confirmaciones.responder(contacto, texto, opcion)) ?? (await assistant.reply(contacto, texto, opcion))
+}
+
+let ultimoEnvio = ''
+async function enviarConfirmacionesSiToca() {
+  const ahora = nowLocal()
+  const hoy = ahora.slice(0, 10)
+  if (CONF_HORA === 'no' || ultimoEnvio === hoy || !isSendTime(ahora, CONF_HORA)) return
+  ultimoEnvio = hoy
+  const r = await confirmaciones.enviar()
+  console.log(`[confirmaciones] ${r.dia}: ${r.enviadas} enviadas, ${r.yaEnviadas} ya enviadas, ${r.errores.length} con error`)
+  for (const e of r.errores) console.error(`[confirmaciones] cita #${e.cita}: ${e.error}`)
+}
 
 const FALLBACK = `Disculpa, tuve un problema técnico. Intenta de nuevo en unos minutos o llama a recepción al ${clinic.telefono_recepcion}.`
 const page = (f: string) => readFileSync(join(root, 'public', f))
@@ -112,7 +153,7 @@ async function handleWhatsApp(raw: Buffer) {
     wa!.markRead(m.id).catch(() => {})
     let r: Reply
     try {
-      r = await assistant.reply(`wa:${m.from}`, m.text, m.optionId)
+      r = await responder(`wa:${m.from}`, m.text, m.optionId)
     } catch (e) {
       console.error('[asistente]', describeApiError(e))
       r = { text: FALLBACK, handoff: false }
@@ -141,12 +182,24 @@ const server = createServer(async (req, res) => {
       if (!sesion || !texto) return json(res, 400, { error: 'Falta la sesión o el texto.' })
       try {
         const opcion = typeof body.opcion === 'string' ? body.opcion.slice(0, 200) : undefined
-        const r = await assistant.reply(`web:${sesion}`, texto, opcion)
+        const r = await responder(`web:${sesion}`, texto, opcion)
         return json(res, 200, { texto: r.text ?? 'Recepción tomará esta conversación.', derivada: r.handoff, opciones: r.options ?? [] })
       } catch (e) {
         console.error('[asistente]', describeApiError(e))
         return json(res, 502, { error: FALLBACK, detalle: isLocalRequest(req) ? describeApiError(e) : undefined })
       }
+    }
+
+    // Simulador: muestra el recordatorio que recibiría el paciente para su próxima hora
+    if (req.method === 'POST' && url.pathname === '/api/simular-confirmacion') {
+      const ip = req.socket.remoteAddress ?? '?'
+      if (rateLimited(ip)) return json(res, 429, { error: 'Demasiados mensajes. Espera unos minutos.' })
+      const body = JSON.parse((await readBody(req, 4096)).toString('utf8')) as { sesion?: string }
+      const sesion = String(body.sesion ?? '').replace(/[^a-zA-Z0-9-]/g, '').slice(0, 40)
+      const proxima = sesion ? agenda.mine(`web:${sesion}`)[0] : undefined
+      if (!proxima) return json(res, 400, { error: 'Primero agenda una hora en el chat; después te muestro la confirmación que te llegaría el día anterior.' })
+      const r = await confirmaciones.enviarUna(proxima.id)
+      return json(res, 200, { texto: r.text, opciones: r.options })
     }
 
     if (url.pathname === '/webhook' && wa) {
@@ -176,7 +229,17 @@ const server = createServer(async (req, res) => {
           clinica: clinic.nombre,
           citas: db.upcoming(nowLocal().slice(0, 10) + 'T00:00').map((c) => ({ ...c, profesional: pro.get(c.profesional) ?? c.profesional, servicio: srv.get(c.servicio) ?? c.servicio })),
           derivadas: db.handoffs(),
+          confirmaciones: {
+            dia: addDays(nowLocal().slice(0, 10), 1),
+            hora: CONF_HORA,
+            citas: db
+              .confirmationsBetween(`${addDays(nowLocal().slice(0, 10), 1)}T00:00`, `${addDays(nowLocal().slice(0, 10), 2)}T00:00`)
+              .map((c) => ({ id: c.id, inicio: c.inicio, paciente: c.paciente, contacto: c.contacto, profesional: pro.get(c.profesional) ?? c.profesional, servicio: srv.get(c.servicio) ?? c.servicio, confirmacion: c.confirmacion })),
+          },
         })
+      }
+      if (req.method === 'POST' && url.pathname === '/api/panel/confirmaciones') {
+        return json(res, 200, await confirmaciones.enviar())
       }
       if (req.method === 'POST' && url.pathname === '/api/panel/devolver') {
         const { contacto } = JSON.parse((await readBody(req, 4096)).toString('utf8')) as { contacto?: string }
@@ -192,10 +255,13 @@ const server = createServer(async (req, res) => {
   }
 })
 
+setInterval(() => enviarConfirmacionesSiToca().catch((e) => console.error('[confirmaciones]', e)), 60_000).unref()
+
 server.listen(PORT, () => {
   console.log(`Asistente de ${clinic.nombre} en http://localhost:${PORT}`)
   console.log(`  Simulador: http://localhost:${PORT}/demo · Panel: http://localhost:${PORT}/panel`)
   console.log(`  WhatsApp: ${waEnabled ? 'conectado (webhook en /webhook)' : 'no configurado (solo simulador)'}`)
+  console.log(`  Confirmaciones: ${CONF_HORA === 'no' ? 'desactivadas' : `cada día a las ${CONF_HORA}, para las horas de mañana (plantilla "${CONF_PLANTILLA}")`}`)
   console.log(`  Modo: ${MODE === 'ia' ? `IA (${env.CLAUDE_MODEL ?? 'claude-opus-5-5'})` : 'guion sin IA (sin costo de API)'}`)
   if (MODE === 'ia' && !env.ANTHROPIC_API_KEY) console.warn('  ⚠️  Modo IA sin ANTHROPIC_API_KEY: el asistente no podrá responder.')
 })

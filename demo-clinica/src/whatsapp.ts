@@ -47,6 +47,7 @@ interface WebhookBody {
           type: string
           text?: { body?: string }
           interactive?: { type: string; button_reply?: { id: string; title: string }; list_reply?: { id: string; title: string } }
+          button?: { payload?: string; text?: string } // respuesta a un botón de una plantilla
         }[]
       }
     }[]
@@ -66,6 +67,7 @@ export function parseWebhook(body: WebhookBody): { texts: IncomingText[]; others
         const choice = m.interactive?.button_reply ?? m.interactive?.list_reply
         if (m.type === 'text' && m.text?.body) texts.push({ id: m.id, from: m.from, name: names.get(m.from), text: m.text.body })
         else if (m.type === 'interactive' && choice) texts.push({ id: m.id, from: m.from, name: names.get(m.from), text: choice.title, optionId: choice.id })
+        else if (m.type === 'button' && m.button?.text) texts.push({ id: m.id, from: m.from, name: names.get(m.from), text: m.button.text, optionId: m.button.payload })
         else others.push({ id: m.id, from: m.from })
       }
     }
@@ -88,6 +90,9 @@ export function createWhatsApp(cfg: WhatsAppConfig) {
       post({ messaging_product: 'whatsapp', recipient_type: 'individual', to, type: 'text', text: { preview_url: false, body } }),
     /** Texto con opciones: hasta 3 como botones; de 4 a 10 como lista desplegable. */
     sendOptions: (to: string, body: string, options: Option[]) => post(interactivePayload(to, body, options)),
+    /** Plantilla aprobada (la única forma de iniciar la conversación). Cada botón de respuesta rápida lleva su payload. */
+    sendTemplate: (to: string, name: string, lang: string, params: string[], buttonPayloads: string[] = []) =>
+      post(templatePayload(to, name, lang, params, buttonPayloads)),
     markRead: (messageId: string) => post({ messaging_product: 'whatsapp', status: 'read', message_id: messageId }),
   }
 }
@@ -117,6 +122,24 @@ export function interactivePayload(to: string, body: string, options: Option[]) 
         button: 'Ver opciones',
         sections: [{ title: 'Opciones', rows: options.slice(0, 10).map((o) => ({ id: o.id, title: clip(o.title, 24), ...(o.description ? { description: clip(o.description, 72) } : {}) })) }],
       },
+    },
+  }
+}
+
+/** Mensaje de plantilla con variables de cuerpo ({{1}}, {{2}}…) y botones de respuesta rápida. */
+export function templatePayload(to: string, name: string, lang: string, params: string[], buttonPayloads: string[] = []) {
+  return {
+    messaging_product: 'whatsapp',
+    recipient_type: 'individual',
+    to,
+    type: 'template',
+    template: {
+      name,
+      language: { code: lang },
+      components: [
+        { type: 'body', parameters: params.map((text) => ({ type: 'text', text })) },
+        ...buttonPayloads.map((payload, i) => ({ type: 'button', sub_type: 'quick_reply', index: String(i), parameters: [{ type: 'payload', payload }] })),
+      ],
     },
   }
 }
