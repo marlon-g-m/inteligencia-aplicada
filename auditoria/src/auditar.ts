@@ -2,6 +2,7 @@
 //   node src/auditar.ts https://clinica.cl              → informe HTML + borrador de mensaje
 //   node src/auditar.ts https://clinica.cl --psi        → además, velocidad real en celular (Google PageSpeed)
 //   node src/auditar.ts --lista prospectos.txt [--psi]  → un informe por sitio + resumen.csv ordenado por oportunidad
+//   Con --pdf, además guarda cada informe como PDF de una página (usa el Chrome o Edge instalado).
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -9,6 +10,7 @@ import { fileURLToPath } from 'node:url'
 import { analyze, topOpportunities, type Audit } from './checks.ts'
 import { fetchPage } from './fetch.ts'
 import { outreachMessage } from './mensaje.ts'
+import { findBrowser, htmlToPdf } from './pdf.ts'
 import { renderReport } from './reporte.ts'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -16,6 +18,8 @@ const outDir = join(root, 'reportes')
 
 const args = process.argv.slice(2)
 const psi = args.includes('--psi')
+const browser = args.includes('--pdf') ? findBrowser() : null
+if (args.includes('--pdf') && !browser) console.warn('⚠️  No encontré Chrome ni Edge para crear los PDF. Indica la ruta en AUDIT_NAVEGADOR o imprime el informe a mano.')
 const listIdx = args.indexOf('--lista')
 const urls =
   listIdx >= 0
@@ -23,7 +27,7 @@ const urls =
     : args.filter((a) => !a.startsWith('--'))
 
 if (!urls.length) {
-  console.log('Uso: node src/auditar.ts <url> [--psi]   |   node src/auditar.ts --lista archivo.txt [--psi]')
+  console.log('Uso: node src/auditar.ts <url> [--psi] [--pdf]   |   node src/auditar.ts --lista archivo.txt [--psi] [--pdf]')
   process.exit(1)
 }
 
@@ -42,6 +46,14 @@ async function auditOne(url: string): Promise<Audit | null> {
     const faltas = audit.hallazgos.filter((h) => h.nivel === 'falta').map((h) => h.titulo)
     console.log(`✔ ${audit.sitio} — ${audit.puntaje}/100${faltas.length ? ` · falta: ${faltas.join(', ')}` : ''}`)
     console.log(`  ${base}.html`)
+    if (browser) {
+      try {
+        await htmlToPdf(browser, `${base}.html`, `${base}.pdf`)
+        console.log(`  ${base}.pdf`)
+      } catch (e) {
+        console.warn(`  ⚠️  ${(e as Error).message}`)
+      }
+    }
     return audit
   } catch (e) {
     console.error(`✖ ${url}: ${(e as Error).message}`)

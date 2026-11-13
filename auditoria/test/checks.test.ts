@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { analyze, topOpportunities, type PageData } from '../src/checks.ts'
+import { analyze, topOpportunities, visibleText, type PageData } from '../src/checks.ts'
 import { normalizeUrl } from '../src/fetch.ts'
 import { outreachMessage } from '../src/mensaje.ts'
 import { renderReport } from '../src/reporte.ts'
@@ -60,8 +60,22 @@ test('el borrador de mensaje es personalizado e incluye cómo dejar de recibirlo
   const a = analyze(page(fixture('antigua.html'), { finalUrl: 'http://antiguo.cl/', httpToHttps: null }))
   const m = outreachMessage(a)
   assert.match(m, /Bienvenidos/) // nombre tomado del título del sitio
-  assert.match(m, /no te contacto más/)
+  assert.match(m, /no los contacto más/)
   assert.equal((m.match(/^• /gm) ?? []).length, 2)
+})
+
+test('el mensaje y el informe tratan de "ustedes", sin mezclar con "tú"', () => {
+  const tuteo = /(tú|tu|tus|te|ti|estás|tienes|prefieres|respóndeme|escríbenos|escríbeme)/i
+  const antigua = analyze(page(fixture('antigua.html'), { finalUrl: 'http://antiguo.cl/', httpToHttps: null, ms: 3200 }))
+  const buena = analyze(page(fixture('buena.html')))
+  for (const a of [antigua, buena]) {
+    const m = outreachMessage(a)
+    assert.doesNotMatch(m, tuteo, m)
+    assert.match(m, /¿cómo están\?/)
+    // Del informe se revisa solo el texto propio: el título del sitio auditado puede decir cualquier cosa
+    const propio = visibleText(renderReport(a)).replace(a.sitio, '')
+    assert.doesNotMatch(propio, tuteo)
+  }
 })
 
 test('normaliza direcciones y rechaza las privadas', () => {
