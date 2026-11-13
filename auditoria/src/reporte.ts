@@ -20,8 +20,8 @@ function fechaLarga(iso: string) {
 
 function verdict(p: number) {
   if (p >= 80) return 'Buena base: hay detalles que mejorar para convertir más visitas en pacientes.'
-  if (p >= 55) return 'Hay oportunidades claras para atraer y atender mejor a tus pacientes.'
-  return 'Tu web está perdiendo pacientes: hay mejoras importantes y rápidas de hacer.'
+  if (p >= 55) return 'Hay oportunidades claras para atraer y atender mejor a sus pacientes.'
+  return 'Su web está perdiendo pacientes: hay mejoras importantes y rápidas de hacer.'
 }
 
 const logo = `<svg viewBox="0 0 144 96" width="34" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><rect width="25" height="96" rx="2"/><path fill-rule="evenodd" d="M72 0H96L144 96H23ZM84 27L118.5 96H49.5Z"/><path d="M61 72H107" stroke-width="5"/></g><circle cx="84" cy="72" r="9.5" fill="#2A44EE"/></svg>`
@@ -35,7 +35,7 @@ export function renderReport(a: Audit, ag: Agency = AGENCIA): string {
     .join('')
   const opps = top.length
     ? top.map((h, i) => `<li><b>${i + 1}</b><div><strong>${esc(h.titulo)}</strong><span>${esc(h.propuesta!)}</span></div></li>`).join('')
-    : '<li><b>✓</b><div><strong>Tu web está muy bien.</strong><span>El siguiente paso es automatizar la atención: un asistente de WhatsApp que agenda solo.</span></div></li>'
+    : '<li><b>✓</b><div><strong>Su web está muy bien.</strong><span>El siguiente paso es automatizar la atención: un asistente de WhatsApp que agenda solo.</span></div></li>'
   const wa = `https://wa.me/${ag.whatsapp}?text=${encodeURIComponent(`Hola, vi el informe de la web de ${a.sitio} y quiero conversar.`)}`
 
   return `<!doctype html>
@@ -45,7 +45,7 @@ export function renderReport(a: Audit, ag: Agency = AGENCIA): string {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Revisión web · ${esc(a.sitio)}</title>
 <style>
-  @page { size: A4; margin: 14mm; }
+  @page { size: A4; margin: 10mm; }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #0F172A; background: #EEF1F5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .page { max-width: 820px; margin: 24px auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgb(11 31 58 / .12); }
@@ -79,7 +79,34 @@ export function renderReport(a: Audit, ag: Agency = AGENCIA): string {
   footer p { margin: 0; font-size: 14px; }
   footer small { display: block; color: #B4C2D8; font-size: 12px; margin-top: 2px; }
   footer a.cta { background: #fff; color: #0B1F3A; text-decoration: none; font-weight: 700; padding: 10px 18px; border-radius: 999px; font-size: 14px; }
-  @media print { body { background: #fff; } .page { margin: 0; box-shadow: none; border-radius: 0; } }
+  /* Al imprimir, todo se compacta para que el informe quepa en una sola hoja A4 */
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; max-width: none; box-shadow: none; border-radius: 0; }
+    header { padding: 12px 20px; }
+    .hero { padding: 14px 20px 2px; gap: 16px; }
+    .hero h1 { font-size: 20px; margin-bottom: 4px; }
+    .hero p { font-size: 12.5px; }
+    .score { width: 88px; height: 88px; }
+    .score div { width: 68px; height: 68px; }
+    .score strong { font-size: 25px; }
+    .score span { font-size: 10px; }
+    section { padding: 8px 20px 4px; }
+    h2 { font-size: 11.5px; margin: 4px 0 7px; }
+    ol.opps { gap: 5px; }
+    ol.opps li { padding: 7px 10px; gap: 10px; break-inside: avoid; }
+    ol.opps b { width: 22px; height: 22px; font-size: 12px; }
+    ol.opps strong, td strong { font-size: 12px; }
+    ol.opps span, td span { font-size: 11px; line-height: 1.3; margin-top: 1px; }
+    td { padding: 4px 6px; }
+    tr { break-inside: avoid; }
+    td.ic { width: 26px; }
+    .note { font-size: 9.5px; margin-top: 6px; }
+    footer { padding: 12px 20px; break-inside: avoid; }
+    footer p { font-size: 13px; }
+    footer small { font-size: 11px; }
+    footer a.cta { padding: 8px 16px; font-size: 13px; }
+  }
   @media (max-width: 600px) { .hero { grid-template-columns: 1fr; } header .meta { display: none; } }
 </style>
 </head>
@@ -111,7 +138,7 @@ export function renderReport(a: Audit, ag: Agency = AGENCIA): string {
       <p>¿Conversamos 30 minutos? Sin costo y sin compromiso.</p>
       <small>${esc(ag.whatsappTexto)} · ${esc(ag.email)}</small>
     </div>
-    <a class="cta" href="${esc(wa)}">Escríbenos por WhatsApp</a>
+    <a class="cta" href="${esc(wa)}">Escríbannos por WhatsApp</a>
   </footer>
 </main>
 </body>

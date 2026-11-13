@@ -3,7 +3,7 @@
 Herramienta de prospección de Inteligencia Aplicada. Revisa la página de inicio de una empresa y genera:
 
 1. **Un informe de una página** (HTML listo para imprimir o guardar como PDF), con puntaje, las 3 oportunidades principales y una invitación a conversar.
-2. **Un borrador del primer mensaje** (correo o LinkedIn), personalizado con los 2 hallazgos más importantes.
+2. **Un borrador del primer mensaje** (correo o LinkedIn), personalizado con los 2 hallazgos más importantes. Va dirigido a la clínica, así que trata siempre de "ustedes".
 3. Con una lista de sitios: **un resumen en CSV ordenado por oportunidad**. Los de menor puntaje son a los que conviene escribir primero.
 
 Es gratis: no usa servicios pagados.
@@ -48,13 +48,21 @@ Con varios sitios, uno por línea (las líneas que empiezan con `#` se ignoran):
 node src/auditar.ts --lista prospectos.txt --psi
 ```
 
+Para guardar además cada informe como PDF, agrega `--pdf`:
+
+```bash
+node src/auditar.ts https://www.clinica-ejemplo.cl --pdf
+```
+
 Los archivos quedan en `reportes/`, que no se sube a GitHub:
-- `AAAA-MM-DD-dominio.html`: el informe. Ábrelo en el navegador y usa **Imprimir → Guardar como PDF** para adjuntarlo.
+- `AAAA-MM-DD-dominio.html`: el informe. Cabe en una hoja A4.
+- `AAAA-MM-DD-dominio.pdf`: solo con `--pdf`. Usa el Chrome o Edge que ya tienes instalado. Sin `--pdf`, abre el informe en el navegador y usa **Imprimir → Guardar como PDF**.
 - `AAAA-MM-DD-dominio-mensaje.txt`: el borrador del mensaje.
 - `resumen-AAAA-MM-DD.csv`: solo con `--lista`, y se abre en Excel.
 
 Variables opcionales:
 - `AUDIT_FIRMA`: el nombre que firma el mensaje (por defecto, Marlon).
+- `AUDIT_NAVEGADOR`: ruta de Chrome o Edge para `--pdf`, si la herramienta no lo encuentra sola.
 - `PSI_API_KEY`: clave gratuita de Google PageSpeed Insights. Sin clave, Google a veces rechaza los pedidos por falta de cupo; en ese caso el informe usa el tiempo de respuesta y la herramienta te avisa. Se crea en Google Cloud Console → APIs → "PageSpeed Insights API" → Credenciales.
 
 Para correr las pruebas:
