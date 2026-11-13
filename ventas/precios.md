@@ -1,6 +1,6 @@
 # Precios "desde"
 
-> **Aprobado por Marlon el 5 de noviembre de 2026 y publicado en la web** (sección "Precios", `web/src/sections/Pricing.tsx`). Si cambias un valor aquí, cámbialo también allá. Los precios son sin IVA y en UF. Como referencia, la UF está en unos **$41.270** (noviembre de 2026, [SII](https://www.sii.cl/valores_y_fechas/uf/uf2026.htm)).
+> **Aprobado por Marlon el 5 de noviembre de 2026 y publicado en la web** (sección "Precios", `web/src/sections/Pricing.tsx`). Si cambias un valor aquí, cámbialo también allá. Los precios son sin IVA y en UF. Como referencia, la UF está en unos **$41.320** (13 de noviembre de 2026, [SII](https://www.sii.cl/valores_y_fechas/uf/uf2026.htm)).
 
 ## Criterio (revisado el 5 de noviembre de 2026)
 
@@ -41,7 +41,7 @@ Desglose de la implementación (≈ $413.000 + IVA):
 
 ### 2. Automatización de procesos: **desde 5 UF por flujo + 1 UF al mes**
 
-- **Flujo simple** (formulario → planilla → aviso): desde 5 UF (≈ $206.000). **Con IA:** desde 10 UF.
+- **Flujo simple** (formulario → planilla → aviso): desde 5 UF (≈ $207.000). **Con IA:** desde 10 UF.
 - **El precio depende de la complejidad:** cuántos pasos tiene el flujo y cuántas herramientas conecta. Se cierra en la propuesta.
 - **La mensualidad** cubre el servidor de n8n, los respaldos y el monitoreo, para hasta 5 flujos.
 - **Mercado:** $300.000 a $800.000 por un flujo simple. Quedamos bajo el rango para entrar.
