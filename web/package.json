@@ -7,7 +7,8 @@
     "dev": "vite --port 5173",
     "build": "tsc -b && vite build",
     "preview": "vite preview --port 4173",
-    "sync:demo": "node scripts/sync-demo.mjs"
+    "sync:demo": "node scripts/sync-demo.mjs",
+    "uf": "node scripts/uf.mjs"
   },
   "dependencies": {
     "lucide-react": "0.460.0",

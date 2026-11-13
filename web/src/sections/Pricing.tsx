@@ -2,8 +2,8 @@ import { ArrowRight, Bot, CalendarCheck, Check, Globe, ShieldCheck, Workflow } f
 import type { LucideIcon } from 'lucide-react'
 import { EASE, Reveal, SectionBadge, WHATSAPP } from '../components/ui'
 
-/** Valor de referencia para mostrar los precios en pesos. Actualízalo de vez en cuando (sii.cl). */
-const UF_REF = 41270
+/** Valor de referencia para mostrar los precios en pesos. Se actualiza con `npm run uf` (toma la UF del día). */
+const UF_REF = 41320
 const UF_REF_MES = 'noviembre de 2026'
 
 interface Plan {
